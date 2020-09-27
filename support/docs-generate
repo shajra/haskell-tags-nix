@@ -1,0 +1,20 @@
+#!/bin/sh -eu
+
+cd "$(dirname "$0")/.."
+
+nix run \
+    --ignore-environment \
+    --keep LANG \
+    --keep LOCALE_ARCHIVE \
+    --file nix \
+    nix-project-org2gfm \
+    nix-haskell-tags-exe \
+    pkgs.ansifilter \
+    pkgs.coreutils \
+    pkgs.tree \
+    --command \
+    org2gfm \
+    --ignore 'links.org' \
+    --nix "$(command -v nix)" \
+    --evaluate \
+    "$@"
