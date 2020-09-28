@@ -5,7 +5,7 @@
 #+LINK: jetbrains https://www.jetbrains.com/
 #+LINK: emacs https://www.gnu.org/software/emacs
 #+LINK: fast-tags https://hackage.haskell.org/package/fast-tags
-#+LINK: github-actions https://github.com/shajra/nix-project/actions
+#+LINK: github-actions https://github.com/shajra/nix-haskell-tags/actions
 #+LINK: github-token https://github.com/settings/tokens
 #+LINK: haskell https://www.haskell.org
 #+LINK: haskell-cabal https://www.haskell.org/cabal/
