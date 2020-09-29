@@ -193,7 +193,8 @@
   can use ~Meta-x visit-tags-table~ to provide the location of a tags file for
   your project.  You can then use ~Meta-x xref-find-definitions~ (by default
   bound to ~Meta-.~) to hop to a tagged definition.  Beyond the manual, you may
-  find the [[tags-emacs-wiki][Emacs Tags wiki page]] useful.
+  find the [[tags-emacs-wiki][Emacs Tags wiki page]] useful.  ~lsp-mode~ users may be interested in
+  this [[https://gist.github.com/rossabaker/52d60669192b0590c5c1775b1798ffa4][compound xref backend]] that queries LSP before falling through to etags.
 
   For Vim users, official documentation is not as centralized as Emacs.  The
   best documentation for using tags with Vim may be [[tags-vim-web][various blog posts]].  Note
