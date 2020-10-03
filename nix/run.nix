@@ -1,10 +1,12 @@
 { coreutils
+, lib
 , nix-project-lib
 }:
 
 let
     prog_name = "nix-haskell-tags";
     desc = "Generate ctags/etags file from a Nix expression";
+    src = lib.sourceFilesBySuffices ./. [".nix" ".json"];
 in
 
 nix-project-lib.writeShellChecked prog_name desc
@@ -17,16 +19,20 @@ set -o pipefail
 
 
 NIX_EXE="$(command -v nix || true)"
-ARGS=(--print-build-logs --show-trace build --file "${./.}")
+ARGS=(--print-build-logs --show-trace --file "${src}")
 EMACS=false
+STATIC=false
 ATTR_PATHS=()
-OUT_LINK=
+EXCLUDE=()
+TAGS_STATIC_PATH=
+TAGS_DYNAMIC_PATH=
+SCRIPT_PATH=run/tags-generate
 
 
 print_usage()
 {
     ${coreutils}/bin/cat - <<EOF
-USAGE: ${prog_name} [OPTION] COMMAND
+USAGE: ${prog_name} [OPTION]...
 
 DESCRIPTION:
 
@@ -34,20 +40,32 @@ DESCRIPTION:
 
 OPTIONS:
 
-    -h --help             print this help messagee
-    -H --haskell-nix      interpret as Haskell.nix package
-    -a --all              don't exclude input derivations
-    -o --out-link PATH    where to output tags file
-    -f --file PATH        Nix expression of filepath to import
-    -A --attr PATH        attr path to input derivations, multiple allowed
-    -e --emacs            generate tags in Emacs format (otherwise Vi)
-    -x --exclude PATTERN  filepaths to exclude
-    -L --folow-symlinks   follow symlinks
-    -T --no-module-tags   do not generate tags for modules
-    -q --qualified        qualified with one level of module (M.f)
-    -Q --fully-qualified  fully qualified (A.B.C.f)
-    -p --src-prefix PATH  path to strip from module names
-    -N --nix PATH         filepath of 'nix' executable to use
+    -h --help               print this help message
+
+    -f --file PATH          Nix expression of filepath to import (required)
+    -A --attr PATH          attr path to target derivations, multiple allowed
+
+    -o --output PATH        file for tags to source within /nix/store
+    -O --output-local PATH  file for tags to source outside /nix/store
+    -s --static             all source in /nix/store, no generation script
+    -l --script-link PATH   where to link tags generation script (ignored for -s)
+    -L --no-script-link     don't make a script link
+
+    -H --haskell-nix        interpret input as Haskell.nix package
+    -e --emacs              generate tags in Emacs format (otherwise Vi)
+
+    -g --include-ghc        include tag references from GHC source
+    -t --include-targets    include targets as well as their dependencies
+    -a --all                same as -g -t
+
+    -x --exclude PATTERN    filepaths to exclude (multiple allowed)
+    -F --folow-symlinks     follow symlinks
+    -T --no-module-tags     do not generate tags for modules
+    -q --qualified          qualified with one level of module (M.f)
+    -Q --fully-qualified    fully qualified (A.B.C.f)
+    -p --src-prefix PATH    path to strip from module names
+
+    -N --nix PATH           filepath of 'nix' executable to use
 
 EOF
 }
@@ -55,11 +73,53 @@ EOF
 main()
 {
     parse_args "$@"
+    ARGS+=(--arg attrPaths "[ ''${ATTR_PATHS[*]} ]")
+    ARGS+=(--arg exclude "[ ''${EXCLUDE[*]} ]")
     add_nix_to_path "$NIX_EXE"
-    ARGS+=(--out-link "$(out_link)")
-    ARGS+=(--arg attrPaths "[ ''${ATTR_PATHS[@]} ]")
-    ARGS+=(nix-haskell-tags-run)
-    nix "''${ARGS[@]}"
+    if "$STATIC"
+    then
+        prep_path "$(tags_static_path)"
+        link_static_tags
+    else
+        ARGS+=(--argstr tagsStaticPath "$(tags_static_path)")
+        ARGS+=(--argstr tagsDynamicPath "$(tags_dynamic_path)")
+        link_script_maybe
+        run_script
+    fi
+}
+
+link_static_tags()
+{
+    nix build \
+        --out-link "$(tags_static_path)" \
+        run-static \
+        "''${ARGS[@]}"
+}
+
+link_script_maybe()
+{
+    nix build --no-link "''${ARGS[@]}" run-dynamic >/dev/null
+    local out; out="$(nix path-info "''${ARGS[@]}" run-dynamic)"
+    local script="$out/bin/nix-haskell-tags-generate"
+    if [ -n "$SCRIPT_PATH" ]
+    then
+        echo "LINKING SCRIPT: $script ->"
+        prep_path "$SCRIPT_PATH"
+        printf "    "
+        nix-store --add-root "$SCRIPT_PATH" --indirect --realize "$script"
+        ${coreutils}/bin/ln --symbolic --no-target-directory --force "$script" "$SCRIPT_PATH"
+    else
+        echo "NOT LINKING SCRIPT: $script"
+    fi
+}
+
+run_script()
+{
+    nix run \
+        --ignore-environment \
+        "''${ARGS[@]}" \
+        run-dynamic \
+        --command nix-haskell-tags-generate --all
 }
 
 parse_args()
@@ -70,20 +130,6 @@ parse_args()
         -h|--help)
             print_usage
             exit 0
-            ;;
-        -H|--haskell-nix)
-            ARGS+=(--arg haskellNix true)
-            ;;
-        -a|--all)
-            ARGS+=(--arg includeAll true)
-            ;;
-        -o|--out-link)
-            local out_link="''${2:-}"
-            if [ -z "$out_link" ]
-            then die "'$1' requires argument"
-            fi
-            OUT_LINK="$out_link"
-            shift
             ;;
         -f|--file)
             local nix_file="''${2:-}"
@@ -101,26 +147,62 @@ parse_args()
             ATTR_PATHS+=("\"$attr_path\"")
             shift
             ;;
-        -N|--nix)
-            NIX_EXE="''${2:-}"
-            if [ -z "$NIX_EXE" ]
+        -o|--output)
+            local path="''${2:-}"
+            if [ -z "$path" ]
             then die "'$1' requires argument"
             fi
+            TAGS_STATIC_PATH="$path"
             shift
+            ;;
+        -O|--output-local)
+            local path="''${2:-}"
+            if [ -z "$path" ]
+            then die "'$1' requires argument"
+            fi
+            TAGS_DYNAMIC_PATH="$path"
+            shift
+            ;;
+        -s|--static)
+            STATIC=true
+            ;;
+        -l|--script-link)
+            local script_path="''${2:-}"
+            if [ -z "$script_path" ]
+            then die "'$1' requires argument"
+            fi
+            SCRIPT_PATH="$script_path"
+            shift
+            ;;
+        -L|--no-script-link)
+            SCRIPT_PATH=
+            ;;
+        -H|--haskell-nix)
+            ARGS+=(--arg haskellNix true)
             ;;
         -e|--emacs)
             EMACS=true
             ARGS+=(--arg emacs true)
+            ;;
+        -g|--include-ghc)
+            ARGS+=(--arg includeGhc true)
+            ;;
+        -t|--include-targets)
+            ARGS+=(--arg includeTargets true)
+            ;;
+        -a|--all)
+            ARGS+=(--arg includeGhc true)
+            ARGS+=(--arg includeTargets true)
             ;;
         -x|--exclude)
             local exclude="''${2:-}"
             if [ -z "$exclude" ]
             then die "'$1' requires argument"
             fi
-            ARGS+=(--argstr exclude "$exclude")
+            EXCLUDE+=("\"$exclude\"")
             shift
             ;;
-        -L|--folow-symlinks)
+        -F|--folow-symlinks)
             ARGS+=(--arg followSymlinks true)
             ;;
         -T|--no-module-tags)
@@ -140,6 +222,13 @@ parse_args()
             ARGS+=(--argstr srcPrefix "$prefix")
             shift
             ;;
+        -N|--nix)
+            NIX_EXE="''${2:-}"
+            if [ -z "$NIX_EXE" ]
+            then die "'$1' requires argument"
+            fi
+            shift
+            ;;
         *)
             die "'$1' not recognized"
             ;;
@@ -148,15 +237,32 @@ parse_args()
     done
 }
 
-out_link()
+tags_static_path()
 {
-    if [ -n "$OUT_LINK" ]
-    then echo "$OUT_LINK"
+    if [ -n "$TAGS_STATIC_PATH" ]
+    then echo "$TAGS_STATIC_PATH"
     elif "$EMACS"
     then echo TAGS
     else echo tags
     fi
 }
+
+tags_dynamic_path()
+{
+    if [ -n "$TAGS_DYNAMIC_PATH" ]
+    then echo "$TAGS_DYNAMIC_PATH"
+    elif "$EMACS"
+    then echo TAGS.local
+    else echo tags
+    fi
+}
+
+prep_path()
+{
+    local parent; parent="$(${coreutils}/bin/dirname "$1")"
+    ${coreutils}/bin/mkdir --parents "$parent"
+}
+
 
 main "$@"
 ''

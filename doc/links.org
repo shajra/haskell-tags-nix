@@ -4,6 +4,9 @@
 #+LINK: intellij https://www.eclipse.org
 #+LINK: jetbrains https://www.jetbrains.com/
 #+LINK: emacs https://www.gnu.org/software/emacs
+#+LINK: emacs-manual-tags https://www.gnu.org/software/emacs/manual/html_node/emacs/Xref.html#Xref
+#+LINK: emacs-wiki-tags https://www.emacswiki.org/emacs/EmacsTags
+#+LINK: emacs-xref-multi https://gist.github.com/rossabaker/52d60669192b0590c5c1775b1798ffa4
 #+LINK: fast-tags https://hackage.haskell.org/package/fast-tags
 #+LINK: github-actions https://github.com/shajra/nix-haskell-tags/actions
 #+LINK: github-token https://github.com/settings/tokens
@@ -13,6 +16,7 @@
 #+LINK: haskell.nix https://input-output-hk.github.io/haskell.nix/reference/modules/
 #+LINK: haskell-stack https://docs.haskellstack.org/en/stable/README/
 #+LINK: hasktags https://hackage.haskell.org/package/hasktags
+#+LINK: lsp https://microsoft.github.io/language-server-protocol/
 #+LINK: nix https://nixos.org/nix
 #+LINK: nix-env https://nixos.org/nix/manual/#sec-nix-env
 #+LINK: nix-expr https://nixos.org/nix/manual/#ch-expression-language
@@ -23,7 +27,9 @@
 #+LINK: nixpkgs-haskell https://nixos.org/manual/nixpkgs/stable/#haskell
 #+LINK: nixpkgs-manual https://nixos.org/nixpkgs/manual
 #+LINK: nix-tutorial https://github.com/shajra/example-nix/tree/master/tutorials/0-nix-intro
-#+LINK: tags-emacs-manual https://www.gnu.org/software/emacs/manual/html_node/emacs/Xref.html#Xref
-#+LINK: tags-emacs-wiki https://www.emacswiki.org/emacs/EmacsTags
-#+LINK: tags-vim-web https://www.google.com?q=vim+tags
+#+LINK: thax https://github.com/tek/thax
 #+LINK: vim https://www.vim.org
+#+LINK: vim-coc https://github.com/neoclide/coc.nvim
+#+LINK: vim-manual-tags https://vim-jp.org/vimdoc-en/options.html#'tags'
+#+LINK: vim-web-tags https://www.google.com?q=vim+tags
+#+LINK: vim-coc-sources https://github.com/neoclide/coc-sources

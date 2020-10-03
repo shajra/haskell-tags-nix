@@ -1,5 +1,5 @@
 { lib
-, set
+, deps-set
 }:
 
 prev:
@@ -31,24 +31,27 @@ let
         let h = builtins.head worklist;
             t = builtins.tail worklist;
             nextSeen =
-                if set.has h seen
+                if deps-set.has h seen
                 then seen
-                else set.insert h seen;
+                else deps-set.insert h seen;
             onlyWorthFollowing = builtins.filter (d:
                 lib.isDerivation d
-                && (d ? isHaskellLibrary || d ? haskellCompilerName)
-                && ! set.has d nextSeen);
-            nextWork = onlyWorthFollowing
-                (h.buildInputs
-                    ++ h.nativeBuildInputs
-                    ++ h.propagatedBuildInputs
-                    ++ h.propagatedNativeBuildInputs);
+                && d ? isHaskellLibrary
+                && ! deps-set.has d nextSeen);
+            nextWork = onlyWorthFollowing h.getBuildInputs.haskellBuildInputs;
         in
         if worklist == []
         then seen
         else allDrvs nextSeen (nextWork ++ t);
 
+    hasGhc = p: p ? compiler;
+
+    ghc =
+        let addGhc = p: acc: acc // { ghc = p.compiler; };
+        in lib.foldr addGhc {} (builtins.filter hasGhc drvList);
+
 in {
-    initial = prev.initial // set.fromList drvList;
+    initial = prev.initial // deps-set.fromList drvList;
     all = allDrvs prev.all drvList;
+    ghc = ghc // prev.ghc;
 }

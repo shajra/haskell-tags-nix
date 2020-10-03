@@ -1,6 +1,8 @@
-{ lib }:
+{ lib
+, writeTextFile
+}:
 
-rec {
+let
 
     shortName = d: lib.pipe d.src [
         builtins.unsafeDiscardStringContext
@@ -11,9 +13,11 @@ rec {
         (x: if lib.strings.stringLength x == 0 then "unknown" else x)
     ];
 
+in rec {
+
     fromList = ds:
         let toEntry = d: { name = shortName d; value = d; };
-        in builtins.listToAttrs (map toEntry ds);
+        in builtins.listToAttrs (builtins.map toEntry ds);
 
     has = d: builtins.hasAttr (shortName d);
 
