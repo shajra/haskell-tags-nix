@@ -207,14 +207,14 @@ run/tags-generate --all
 ```
 
     
-    SOURCES in /nix/store/8y33yca3al5jg1k9544gwrwbd2cc16w7-tags-deps:
-    - /nix/store/30c2xhl3nn07q75lbv7mc6c3mhmpw3yq-ghc-8.8.4-configured-src/libraries/ghci
-    - /nix/store/30c2xhl3nn07q75lbv7mc6c3mhmpw3yq-ghc-8.8.4-configured-src/libraries/libiserv
-    - /nix/store/30c2xhl3nn07q75lbv7mc6c3mhmpw3yq-ghc-8.8.4-configured-src/utils/iserv
-    - /nix/store/30c2xhl3nn07q75lbv7mc6c3mhmpw3yq-ghc-8.8.4-configured-src/utils/iserv-proxy
-    - /nix/store/30c2xhl3nn07q75lbv7mc6c3mhmpw3yq-ghc-8.8.4-configured-src/utils/remote-iserv
+    SOURCES in /nix/store/cg9x01wkyj30j5jzp01njwfl8psaz1di-tags-deps:
     - /nix/store/vbv0sblk7w52kcaqlc1h3w33h8zlv76v-void-0.7.3.tar.gz-unpacked
-    RUNNING: /nix/store/97vambzyvpvrd9wgrrw7i7svi0s8vny5-findutils-4.7.0/bin/xargs /nix/store/v0zi9g5dbb8s91iimfsdw2239dsyn9h8-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/8y33yca3al5jg1k9544gwrwbd2cc16w7-tags-deps
+    - /nix/store/hsr3lrz4rvqkdiyxzb8g8dcdsd39lf9f-ghc-8.8.4-configured-src/libraries/ghci
+    - /nix/store/hsr3lrz4rvqkdiyxzb8g8dcdsd39lf9f-ghc-8.8.4-configured-src/libraries/libiserv
+    - /nix/store/hsr3lrz4rvqkdiyxzb8g8dcdsd39lf9f-ghc-8.8.4-configured-src/utils/iserv
+    - /nix/store/hsr3lrz4rvqkdiyxzb8g8dcdsd39lf9f-ghc-8.8.4-configured-src/utils/iserv-proxy
+    - /nix/store/hsr3lrz4rvqkdiyxzb8g8dcdsd39lf9f-ghc-8.8.4-configured-src/utils/remote-iserv
+    RUNNING: /nix/store/97vambzyvpvrd9wgrrw7i7svi0s8vny5-findutils-4.7.0/bin/xargs /nix/store/v0zi9g5dbb8s91iimfsdw2239dsyn9h8-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/cg9x01wkyj30j5jzp01njwfl8psaz1di-tags-deps
     
     SOURCES in /nix/store/241gk4w084am1zrqz075amqg7lf8bbkl-tags-deps:
     RUNNING: /nix/store/97vambzyvpvrd9wgrrw7i7svi0s8vny5-findutils-4.7.0/bin/xargs /nix/store/v0zi9g5dbb8s91iimfsdw2239dsyn9h8-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/241gk4w084am1zrqz075amqg7lf8bbkl-tags-deps

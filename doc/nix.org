@@ -301,7 +301,7 @@
    #+END_SRC
 
    #+RESULTS:
-   : /nix/store/ay7lrp3pz8wnhk1ffb1nhh4rqp6k15hz-nix-haskell-tags
+   : /nix/store/593s8f6lw5fgja846a5b58anadxshwmj-nix-haskell-tags
 
    Following these symlinks, we can see the files the project provides:
 
@@ -328,7 +328,7 @@
    #+END_SRC
 
    #+RESULTS:
-   : /nix/store/ay7lrp3pz8wnhk1ffb1nhh4rqp6k15hz-nix-haskell-tags
+   : /nix/store/593s8f6lw5fgja846a5b58anadxshwmj-nix-haskell-tags
 
 ** Running commands
 
