@@ -130,8 +130,8 @@
    The main argument =nix-haskell-tags= requires is a Nix path to import that
    has the Nix expression for your build.  This is passed in with the =--file=
    switch.  In our example, that Nix expression can be found at =./test=.  Note
-   that you need the "./" prefix is needed because paths in Nix syntax must
-   contain at least one slash character.
+   that the "./" prefix is needed because paths in Nix syntax must contain at
+   least one slash character.
 
    If the Nix expression found at the provided path contains multiple
    derivations, then by default all these derivations are considered /target
@@ -230,7 +230,7 @@
    #+END_SRC
 
    The default name for the tags file is "tags" for the ctags format and "TAGS"
-   for the etags format.  But you can change the name with the =--out-link=
+   for the etags format.  But you can change the name with the =--output=
    switch.
 
    Lastly, if you have a Haskell.nix build, you need to use the =--haskell-nix=
@@ -268,10 +268,10 @@
    by =nix-collect-garbage=.
 
    If you'd like to free these sources for collection, you can delete the
-   generation script before calling =nix-collect-garbage=.  Alternatively, you
-   can call =nix-haskell=tags= with the =--no-script-link= which will create and
-   run the script, but not link it as =run/tags-generate= or set it up as a GC
-   root.
+   generation script symlink before calling =nix-collect-garbage=.
+   Alternatively, you can call =nix-haskell=tags= with the =--no-script-link=
+   which will create and run the script, but not link it as =run/tags-generate=
+   or set it up as a GC root.
 
    If you want a different name or location for the generation script, you can
    set it explicitly with the =--script-link= switch.
@@ -524,7 +524,7 @@
 * Command-line reference
 
   For reference below is the help message for =nix-haskell-tags=.  Most of the
-  switches not discussed are passed directly to =fast-tags=.
+  switches not discussed above are passed directly to =fast-tags=.
 
   #+BEGIN_SRC shell :results output :exports both
     nix-haskell-tags --help

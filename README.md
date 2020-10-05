@@ -80,7 +80,7 @@ Once you have `nix-haskell-tag` available to call, you can use it to generate a 
 
 ## Calling `nix-haskell-tags`<a id="sec-3-2"></a>
 
-The main argument `nix-haskell-tags` requires is a Nix path to import that has the Nix expression for your build. This is passed in with the `--file` switch. In our example, that Nix expression can be found at `./test`. Note that you need the "./" prefix is needed because paths in Nix syntax must contain at least one slash character.
+The main argument `nix-haskell-tags` requires is a Nix path to import that has the Nix expression for your build. This is passed in with the `--file` switch. In our example, that Nix expression can be found at `./test`. Note that the "./" prefix is needed because paths in Nix syntax must contain at least one slash character.
 
 If the Nix expression found at the provided path contains multiple derivations, then by default all these derivations are considered *target packages*. The target package is the root package that we start with to find all dependencies. We can select a target out with the `--attr` switch. You can use the `--attr` switch multiple times to select out multiple targets.
 
@@ -158,7 +158,7 @@ By default the generated tags file is in the Vi-style "ctags" format. You can us
 nix-haskell-tags --file ./test --attr build.nixpkgs --emacs
 ```
 
-The default name for the tags file is "tags" for the ctags format and "TAGS" for the etags format. But you can change the name with the `--out-link` switch.
+The default name for the tags file is "tags" for the ctags format and "TAGS" for the etags format. But you can change the name with the `--output` switch.
 
 Lastly, if you have a Haskell.nix build, you need to use the `--haskell-nix` switch. Here's an example of generating tags from the Haskell.nix build of our example project:
 
@@ -182,7 +182,7 @@ The tags generation script has hard-coded references to the location of source c
 
 Also, the generation script is located in `/nix/store` and set up as an indirect GC root (under `/nix/var/nix/gcroots/auto`). This prevents any source in `/nix/store` referenced by the generation script from being deleted by `nix-collect-garbage`.
 
-If you'd like to free these sources for collection, you can delete the generation script before calling `nix-collect-garbage`. Alternatively, you can call `nix-haskell=tags` with the `--no-script-link` which will create and run the script, but not link it as `run/tags-generate` or set it up as a GC root.
+If you'd like to free these sources for collection, you can delete the generation script symlink before calling `nix-collect-garbage`. Alternatively, you can call `nix-haskell=tags` with the `--no-script-link` which will create and run the script, but not link it as `run/tags-generate` or set it up as a GC root.
 
 If you want a different name or location for the generation script, you can set it explicitly with the `--script-link` switch.
 
@@ -343,7 +343,7 @@ In both `nix-haskell-tags-static` and `nix-haskell-tags-dynamic` functions, the 
 
 # Command-line reference<a id="sec-4"></a>
 
-For reference below is the help message for `nix-haskell-tags`. Most of the switches not discussed are passed directly to `fast-tags`.
+For reference below is the help message for `nix-haskell-tags`. Most of the switches not discussed above are passed directly to `fast-tags`.
 
 ```shell
 nix-haskell-tags --help
