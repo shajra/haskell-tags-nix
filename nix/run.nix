@@ -28,6 +28,7 @@ EXCLUDE=()
 TAGS_STATIC_PATH=
 TAGS_DYNAMIC_PATH=
 SCRIPT_PATH=run/tags-generate
+REBUILD=false
 
 
 print_usage()
@@ -52,6 +53,7 @@ OPTIONS:
     -s --static             all source in /nix/store, no generation script
     -l --script-link PATH   where to link tags generation script (ignored for -s)
     -L --no-script-link     don't make a script link
+    -R --rebuild            force rebuild of script and all tags (unneeded for -s)
 
     -H --haskell-nix        interpret input as Haskell.nix package
     -e --emacs              generate tags in Emacs format (otherwise Vi)
@@ -101,28 +103,42 @@ link_static_tags()
 
 link_script_maybe()
 {
-    nix build --no-link "''${ARGS[@]}" run-dynamic >/dev/null
-    local out; out="$(nix path-info "''${ARGS[@]}" run-dynamic)"
-    local script="$out/bin/nix-haskell-tags-generate"
-    if [ -n "$SCRIPT_PATH" ]
+    if ! [ -x "$SCRIPT_PATH" ] || "$REBUILD"
     then
-        echo "LINKING SCRIPT: $script ->"
-        prep_path "$SCRIPT_PATH"
-        printf "    "
-        nix-store --add-root "$SCRIPT_PATH" --indirect --realize "$script"
-        ${coreutils}/bin/ln --symbolic --no-target-directory --force "$script" "$SCRIPT_PATH"
+        nix build --no-link "''${ARGS[@]}" run-dynamic >/dev/null
+        local out; out="$(nix path-info "''${ARGS[@]}" run-dynamic)"
+        local script="$out/bin/nix-haskell-tags-generate"
+        if [ -n "$SCRIPT_PATH" ]
+        then
+            echo "LINKING SCRIPT: $script ->"
+            prep_path "$SCRIPT_PATH"
+            printf "    "
+            nix-store --add-root "$SCRIPT_PATH" --indirect --realize "$script"
+            ${coreutils}/bin/ln \
+                --symbolic --no-target-directory --force "$script" "$SCRIPT_PATH"
+        else
+            echo "NOT LINKING SCRIPT: $script"
+        fi
     else
-        echo "NOT LINKING SCRIPT: $script"
+        echo "USING PRE-EXISTING SCRIPT: $SCRIPT_PATH ->"
+        echo "    $(${coreutils}/bin/readlink -f "$SCRIPT_PATH")"
     fi
 }
 
 run_script()
 {
-    nix run \
+    local switches=()
+    if ! [ -f "$(tags_static_path)" ] || "$REBUILD"
+    then switches=("--all")
+    fi
+    if [ -x "$SCRIPT_PATH" ]
+    then "$SCRIPT_PATH" "''${switches[@]}"
+    else nix run \
         --ignore-environment \
         "''${ARGS[@]}" \
         run-dynamic \
-        --command nix-haskell-tags-generate --all
+        --command nix-haskell-tags-generate "''${switches[@]}"
+    fi
 }
 
 parse_args()
@@ -187,6 +203,9 @@ parse_args()
             ;;
         -L|--no-script-link)
             SCRIPT_PATH=
+            ;;
+        -R|--rebuild)
+            REBUILD=true
             ;;
         -H|--haskell-nix)
             ARGS+=(--arg haskellNix true)
