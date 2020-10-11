@@ -19,9 +19,10 @@ set -o pipefail
 
 
 NIX_EXE="$(command -v nix || true)"
-ARGS=(--print-build-logs --show-trace --file "${src}")
+ARGS=(--print-build-logs --show-trace --file "${src}" --arg nixFile ./.)
 EMACS=false
 STATIC=false
+WORK_DIR="$(pwd)"
 ATTR_PATHS=()
 EXCLUDE=()
 TAGS_STATIC_PATH=
@@ -42,7 +43,8 @@ OPTIONS:
 
     -h --help               print this help message
 
-    -f --file PATH          Nix expression of filepath to import (required)
+    -w --work-dir PATH      directory to use as a working directory
+    -f --file PATH          Nix expression of filepath to import
     -A --attr PATH          attr path to target derivations, multiple allowed
 
     -o --output PATH        file for tags to source within /nix/store
@@ -76,6 +78,7 @@ main()
     ARGS+=(--arg attrPaths "[ ''${ATTR_PATHS[*]} ]")
     ARGS+=(--arg exclude "[ ''${EXCLUDE[*]} ]")
     add_nix_to_path "$NIX_EXE"
+    cd "$WORK_DIR"
     if "$STATIC"
     then
         prep_path "$(tags_static_path)"
@@ -130,6 +133,14 @@ parse_args()
         -h|--help)
             print_usage
             exit 0
+            ;;
+        -w|--work-dir)
+            local work_dir="''${2:-}"
+            if ! [ -d "$work_dir" ]
+            then die "'$1' requires a directory as an argument"
+            fi
+            WORK_DIR="$work_dir"
+            shift
             ;;
         -f|--file)
             local nix_file="''${2:-}"
