@@ -28,7 +28,7 @@ EXCLUDE=()
 TAGS_STATIC_PATH=
 TAGS_DYNAMIC_PATH=
 SCRIPT_PATH=run/tags-generate
-REBUILD=false
+SKIP_REBUILD=false
 
 
 print_usage()
@@ -53,7 +53,8 @@ OPTIONS:
     -s --static             all source in /nix/store, no generation script
     -l --script-link PATH   where to link tags generation script (ignored for -s)
     -L --no-script-link     don't make a script link
-    -R --rebuild            force rebuild of script and all tags (unneeded for -s)
+    -S --skip-rebuild       skip rebuilding script and tags within /nix/store
+                            (unneeded for -s)
 
     -H --haskell-nix        interpret input as Haskell.nix package
     -e --emacs              generate tags in Emacs format (otherwise Vi)
@@ -156,8 +157,8 @@ parse_args()
         -L|--no-script-link)
             SCRIPT_PATH=
             ;;
-        -R|--rebuild)
-            REBUILD=true
+        -S|--skip-rebuild)
+            SKIP_REBUILD=true
             ;;
         -H|--haskell-nix)
             ARGS+=(--arg haskellNix true)
@@ -229,8 +230,11 @@ link_static_tags()
 
 link_script_maybe()
 {
-    if ! [ -x "$SCRIPT_PATH" ] || "$REBUILD"
+    if [ -x "$SCRIPT_PATH" ] && "$SKIP_REBUILD"
     then
+        echo "USING PRE-EXISTING SCRIPT: $SCRIPT_PATH ->"
+        echo "    $(${coreutils}/bin/readlink -f "$SCRIPT_PATH")"
+    else
         nix build --no-link "''${ARGS[@]}" run-dynamic >/dev/null
         local out; out="$(nix path-info "''${ARGS[@]}" run-dynamic)"
         local script="$out/bin/nix-haskell-tags-generate"
@@ -245,17 +249,14 @@ link_script_maybe()
         else
             echo "NOT LINKING SCRIPT: $script"
         fi
-    else
-        echo "USING PRE-EXISTING SCRIPT: $SCRIPT_PATH ->"
-        echo "    $(${coreutils}/bin/readlink -f "$SCRIPT_PATH")"
     fi
 }
 
 run_script()
 {
-    local switches=()
-    if ! [ -f "$(tags_static_path)" ] || "$REBUILD"
-    then switches=("--all")
+    local switches=("--all")
+    if [ -f "$(tags_static_path)" ] && "$SKIP_REBUILD"
+    then switches=()
     fi
     if [ -x "$SCRIPT_PATH" ]
     then "$SCRIPT_PATH" "''${switches[@]}"
