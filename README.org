@@ -4,7 +4,7 @@
 [[https://github.com/shajra/nix-haskell-tags/actions][https://github.com/shajra/nix-haskell-tags/workflows/CI/badge.svg]]
 
 * Org-mode Setup :noexport:
- 
+
   #+NAME: crop
   #+BEGIN_SRC emacs-lisp :var text="" :var first-n=5 :var last-n=5 :results silent
     (let* ((ls         (split-string text "\n"))
@@ -24,6 +24,11 @@
     rm --recursive --force tags TAGS TAGS.local result run
   #+END_SRC
 
+  #+BEGIN_SRC shell :results output silent :exports none
+    nix show-derivation \
+        --file test build.haskell-nix.components.exes 2>&1
+  #+END_SRC
+
 * About this project
 
   This project helps generate a [[ctags][tags file]] for [[haskell][Haskell]] projects that are built
@@ -36,7 +41,7 @@
   dependencies.
 
   There's two problems addressed to build such a tags file:
- 
+
   - downloading the source code for all transitive dependencies
   - generating accurate references despite Haskell's complex syntax.
 

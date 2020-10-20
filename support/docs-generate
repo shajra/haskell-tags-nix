@@ -11,6 +11,8 @@ nix run \
     nix-haskell-tags-exe \
     pkgs.ansifilter \
     pkgs.coreutils \
+    pkgs.gnutar \
+    pkgs.gzip \
     pkgs.tree \
     --command \
     org2gfm \
