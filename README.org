@@ -279,7 +279,7 @@
 
    If you'd like to free these sources for collection, you can delete the
    generation script symlink before calling =nix-collect-garbage=.
-   Alternatively, you can call =nix-haskell=tags= with the =--no-script-link=
+   Alternatively, you can call =nix-haskell-tags= with the =--no-script-link=,
    which will create and run the script, but not link it as =run/tags-generate=
    or set it up as a GC root.
 
@@ -288,7 +288,7 @@
 
    The tags generation script makes makes tags in two steps.  The first step
    populates tags referencing source within =/nix/store=.  The second step
-   populates tags referencing source outside =/nix/store=.  Source stored with
+   populates tags referencing source outside =/nix/store=.  Source stored within
    =/nix/store= is typically downloaded source for third-party libraries.  The
    source outside =/nix/store= is typically code you are actively developing.
 
@@ -395,9 +395,10 @@
    : main :: IO ()main7,52
 
    With the separate "TAGS.local" file, you can call the tags generation script
-   and the whole file will be regenerated from scratch, leaving the "TAGS"
-   untouched.  However, you don't need to bother with this separation if you use
-   the Vi-style ctags format.
+   and the whole file tags for your local project will be regenerated from
+   scratch, leaving the tags of dependencies in "TAGS" untouched.  However, you
+   don't need to bother with this separation if you use the Vi-style ctags
+   format.
 
    If you prefer different names than "TAGS" or "TAGS.local" you can change both
    with the =--output= and =--output-local= switches respectively.
