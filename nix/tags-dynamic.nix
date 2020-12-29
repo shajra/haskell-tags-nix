@@ -50,7 +50,7 @@ TAGS_DYNAMIC_PATH="${builtins.toString tagsDynamicPath}"
 
 print_usage()
 {
-    ${coreutils}/bin/cat - <<EOF
+    "${coreutils}/bin/cat" - <<EOF
 USAGE: ${prog_name} [OPTION]...
 
 DESCRIPTION:
@@ -104,8 +104,8 @@ make_tags()
     while read -r f
     do echo "- $f"
     done < "$srcs_file"
-    echo RUNNING: ${findutils}/bin/xargs \
-        ${haskellPackages.fast-tags}/bin/fast-tags -R -o "$tags_path" \
+    echo RUNNING: "${findutils}/bin/xargs" \
+        "${haskellPackages.fast-tags}/bin/fast-tags" -R -o "$tags_path" \
         ${fasttagsArgs.emacs} \
         ${fasttagsArgs.exclude} \
         ${fasttagsArgs.followSymlinks} \
@@ -114,8 +114,8 @@ make_tags()
         ${fasttagsArgs.fullyQualified} \
         ${fasttagsArgs.srcPrefix} \
         \< "$srcs_file"
-    ${findutils}/bin/xargs \
-        ${haskellPackages.fast-tags}/bin/fast-tags -R -o "$tags_path" \
+    "${findutils}/bin/xargs" \
+        "${haskellPackages.fast-tags}/bin/fast-tags" -R -o "$tags_path" \
         ${fasttagsArgs.emacs} \
         ${fasttagsArgs.exclude} \
         ${fasttagsArgs.followSymlinks} \

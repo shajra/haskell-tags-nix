@@ -33,7 +33,7 @@ SKIP_REBUILD=false
 
 print_usage()
 {
-    ${coreutils}/bin/cat - <<EOF
+    "${coreutils}/bin/cat" - <<EOF
 USAGE: ${prog_name} [OPTION]...
 
 DESCRIPTION:
@@ -233,7 +233,7 @@ link_script_maybe()
     if [ -x "$SCRIPT_PATH" ] && "$SKIP_REBUILD"
     then
         echo "USING PRE-EXISTING SCRIPT: $SCRIPT_PATH ->"
-        echo "    $(${coreutils}/bin/readlink -f "$SCRIPT_PATH")"
+        echo "    $("${coreutils}/bin/readlink" -f "$SCRIPT_PATH")"
     else
         nix build --no-link "''${ARGS[@]}" run-dynamic >/dev/null
         local out; out="$(nix path-info "''${ARGS[@]}" run-dynamic)"
@@ -244,7 +244,7 @@ link_script_maybe()
             prep_path "$SCRIPT_PATH"
             printf "    "
             nix-store --add-root "$SCRIPT_PATH" --indirect --realize "$script"
-            ${coreutils}/bin/ln \
+            "${coreutils}/bin/ln" \
                 --symbolic --no-target-directory --force "$script" "$SCRIPT_PATH"
         else
             echo "NOT LINKING SCRIPT: $script"
@@ -290,8 +290,8 @@ tags_dynamic_path()
 
 prep_path()
 {
-    local parent; parent="$(${coreutils}/bin/dirname "$1")"
-    ${coreutils}/bin/mkdir --parents "$parent"
+    local parent; parent="$("${coreutils}/bin/dirname" "$1")"
+    "${coreutils}/bin/mkdir" --parents "$parent"
 }
 
 

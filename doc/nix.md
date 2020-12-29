@@ -115,7 +115,7 @@ In the remainder of this document, we'll use `.` instead of `default.nix` since 
 
 The following result is returned by our prior execution of `nix search --no-cache --file .`:
 
-We can see that a package named "nix-haskell-tags" can be accessed with the "nix-haskell-tags-exe" attribute path in the Nix expression in the project root's `default.nix`. This package provides the executable `nix-haskell-tags`.
+We can see that a package named "nix-haskell-tags" can be accessed with the `nix-haskell-tags-exe` attribute path in the Nix expression in the project root's `default.nix`. Not shown in the search results above, this package happens to provide the executable `nix-haskell-tags`.
 
 We can build this package with `nix build` from the project root:
 
@@ -133,7 +133,7 @@ After a successful call of `nix build`, you'll see one or more symlinks for each
 readlink result*
 ```
 
-    /nix/store/m6hghvjr5n6gp3b8jyw330zgy1na74d0-nix-haskell-tags
+    /nix/store/x2jdabphg247sic2wy02v35xr6qhgsdx-nix-haskell-tags
 
 Following these symlinks, we can see the files the project provides:
 
@@ -155,11 +155,15 @@ It's common to configure these "result" symlinks as ignored in source control to
 nix path-info --file . nix-haskell-tags-exe
 ```
 
-    /nix/store/m6hghvjr5n6gp3b8jyw330zgy1na74d0-nix-haskell-tags
+    /nix/store/x2jdabphg247sic2wy02v35xr6qhgsdx-nix-haskell-tags
 
 ## Running commands<a id="sec-4-3"></a>
 
-You can run a command from a package in a Nix expression with `nix run`. For example, to get the help message for the `nix-haskell-tags` executable provided by the "nix-haskell-tags" package selected by the "nix-haskell-tags-exe" attribute path, we can call the following:
+We can run commands in Nix-curated environments with `nix run`. Nix will take executables found in packages, put them in an environment's `PATH`, and then execute a user-specified command.
+
+With `nix run`, you don't even have to build the package first with `nix build` or mess around with the "result" symlinks. `nix run` will build the project if it's not yet been built.
+
+For example, to get the help message for the `nix-haskell-tags` executable provided by the `nix-haskell-tags` package selected by the `nix-haskell-tags-exe` attribute path from `.`, we can call the following:
 
 ```shell
 nix run \
@@ -175,7 +179,7 @@ nix run \
         Generate ctags/etags file from a Nix expression
     …
 
-You don't even have to build the package first with `nix build` or mess around with the "result" symlinks. `nix run` will build the project if it's not yet been built.
+Thus far, the argument of the `--file` switch has always referenced a Nix file on our local filesystem. However, it's possible to reference a Nix expression downloaded from the internet. The Nix ecosystem is supported by a giant GitHub repository of Nix expressions called [Nixpkgs](https://github.com/NixOS/nixpkgs). Special branches of this repository are considered *channels* in the Nix ecosystem. A Nixpkgs branch of "nixos-20.09" can be referenced by "channel:nixos-20.09" for `nix` subcommands that accept a `--file` switch.
 
 Again, as with `nix build` attribute paths are specified as positional arguments to select packages.
 
@@ -185,7 +189,7 @@ The command to run is specified after the `--command` switch. `nix run` runs the
 
 ## Installing and uninstalling programs<a id="sec-4-4"></a>
 
-We've seen that we can build programs with `nix build` and then execute programs using the "result" symlink (`result/bin/*`). Additionally, we've seen that you can run programs with `nix run`. But these additional steps and switches/arguments can feel extraneous. It would be nice if we could just have the programs on our `PATH`. This is what `nix-env` is for.
+We've seen that we can build programs with `nix build` and then execute them using the "result" symlink (`result/bin/*`). Additionally, we've seen that you can run programs with `nix run`. But these additional steps and switches/arguments can feel extraneous. It would be nice if we could just have the programs on our `PATH`. This is what `nix-env` is for.
 
 `nix-env` maintains a symlink tree, called a *profile*, of installed programs. The active profile is pointed to by a symlink at `~/.nix-profile`. By default, this profile points to `/nix/var/nix/profiles/per-user/$USER/profile`. But you can point your `~/.nix-profile` to any writable location with the `--switch-profile` switch:
 
@@ -201,7 +205,7 @@ We can query what's installed in the active profile with the `--query` switch:
 nix-env --query
 ```
 
-To install the `nix-haskell-tags` executable, which is accessed by the "nix-haskell-tags-exe" in our top-level `default.nix` file, we'd run the following:
+To install the `nix-haskell-tags` executable, which is accessed by the `nix-haskell-tags-exe` in our top-level `default.nix` file, we'd run the following:
 
 ```shell
 nix-env --install --file . --attr nix-haskell-tags-exe 2>&1
@@ -225,9 +229,9 @@ nix-env --uninstall nix-haskell-tags 2>&1
 
     uninstalling 'nix-haskell-tags'
 
-Note that we've installed our package using its attribute path ("nix-haskell-tags-exe") within the referenced Nix expression. But we uninstall it using the package name ("nix-haskell-tags"), which may or may not be the same as the attribute path. When a package is installed, Nix keeps no reference to the expression that evaluated to the derivation of the installed package. The attribute path is only relevant to this expression. In fact, two different expressions could evaluate to the exact same derivation, but use different attribute paths. This is why we uninstall packages by their package name.
+Note that we've installed our package using its attribute path (`nix-haskell-tags-exe`) within the referenced Nix expression. But we uninstall it using the package name ("nix-haskell-tags"), which may or may not be the same as the attribute path. When a package is installed, Nix keeps no reference to the expression that evaluated to the derivation of the installed package. The attribute path is only relevant to this expression. In fact, two different expressions could evaluate to the exact same derivation, but use different attribute paths. This is why we uninstall packages by their package name.
 
-Also, if you look at the location for your profile, you'll see that Nix retains the symlink trees of previous generations of your profile. In fact you can even rollback to a previous profile with the `--rollback` switch. You can delete old generations of your profile with the `=--delete-generations` switch.
+Also, if you look at the location for your profile, you'll see that Nix retains the symlink trees of previous generations of your profile. In fact you can even rollback to a previous profile with the `--rollback` switch. You can delete old generations of your profile with the `--delete-generations` switch.
 
 See the [documentation for `nix-env`](https://nixos.org/nix/manual/#sec-nix-env) for more details.
 

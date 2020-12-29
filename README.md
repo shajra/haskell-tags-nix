@@ -90,7 +90,7 @@ Here we build a tags file for the Nixpkgs build of our example project:
 nix-haskell-tags --file ./test --attr build.nixpkgs
 ```
 
-    LINKING SCRIPT: /nix/store/r015hir2xrr5l2w39zwp1i3xkngj55b7-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
+    LINKING SCRIPT: /nix/store/yc50pfs5karbl3c7n9a8a25bdp5nn8b8-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
         /home/tnks/src/shajra/nix-haskell-tags/run/tags-generate
     
     SOURCES in /nix/store/jfszvflrcbjalnr736hqxzm417rgw7xd-tags-deps:
@@ -127,7 +127,7 @@ If you want to include tags for your target packages, you can call `nix-haskell-
 nix-haskell-tags --file ./test --attr build.nixpkgs --include-targets
 ```
 
-    LINKING SCRIPT: /nix/store/40i5bsb01bfn044h9xd950dw235qgc0z-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
+    LINKING SCRIPT: /nix/store/48w41azwn5i4x3jhxf9l13wf4yjmrsd2-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
         /home/tnks/src/shajra/nix-haskell-tags/run/tags-generate
     
     SOURCES in /nix/store/jfszvflrcbjalnr736hqxzm417rgw7xd-tags-deps:
@@ -229,7 +229,7 @@ To deal with this limitation of `fast-tags` we have the option of generating two
 nix-haskell-tags --file ./test --attr build.nixpkgs --emacs --include-targets
 ```
 
-    LINKING SCRIPT: /nix/store/8sj4d58lp9vq8wmbwkm5hwplca9krm6q-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
+    LINKING SCRIPT: /nix/store/x0mfjkniadk43nn6kljfafic7f1g4xvg-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
         /home/tnks/src/shajra/nix-haskell-tags/run/tags-generate
     
     SOURCES in /nix/store/jfszvflrcbjalnr736hqxzm417rgw7xd-tags-deps:
@@ -348,7 +348,7 @@ nix build '(
 readlink -f result
 ```
 
-    /nix/store/40i5bsb01bfn044h9xd950dw235qgc0z-nix-haskell-tags-generate
+    /nix/store/48w41azwn5i4x3jhxf9l13wf4yjmrsd2-nix-haskell-tags-generate
 
 In both `nix-haskell-tags-static` and `nix-haskell-tags-dynamic` functions, the only required attribute is `nixExprs`.
 
