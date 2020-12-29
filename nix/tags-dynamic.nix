@@ -28,19 +28,22 @@ let
     };
 
     prog_name = "nix-haskell-tags-generate";
-    desc = "Generate ctags/etags for a specific project";
+    meta.description = "Generate ctags/etags for a specific project";
     onlyInStore = lib.hasPrefix builtins.storeDir;
     splitSrcs = lib.partition onlyInStore depSrcs;
     storeSrcs = args.fasttagsSrcs splitSrcs.right;
     localSrcs = args.fasttagsSrcs splitSrcs.wrong;
 
-in nix-project-lib.writeShellChecked prog_name desc
+in nix-project-lib.writeShellCheckedExe prog_name
+{
+    inherit meta;
+}
 ''
 set -eu
 set -o pipefail
 
 
-. "${nix-project-lib.lib-sh}/bin/lib.sh"
+. "${nix-project-lib.lib-sh}/share/nix-project/lib.sh"
 
 
 ALL=false
@@ -55,7 +58,7 @@ USAGE: ${prog_name} [OPTION]...
 
 DESCRIPTION:
 
-    ${desc}
+    ${meta.description}
 
 OPTIONS:
 

@@ -1,5 +1,5 @@
-{ sources ? import ../nix/sources.nix
-, nixpkgs ? import sources.nixpkgs { config = {}; overlays = []; }
+{ sources ? import ../nix/sources
+, nixpkgs ? import sources.nixpkgs-stable { config = {}; overlays = []; }
 , config ? import ./config.nix
 }:
 

@@ -1,4 +1,4 @@
-{ sources ? import ./sources.nix
+{ sources ? import ./sources
 }:
 
 let
@@ -15,7 +15,7 @@ let
         tags-static = pkgs.callPackage (import ./tags-static.nix) {};
     };
 
-    pkgs = import sources.nixpkgs { config = {}; overlays = [overlay]; };
+    pkgs = import sources.nixpkgs-stable { config = {}; overlays = [overlay]; };
 
     nix-project = import sources.nix-project;
 

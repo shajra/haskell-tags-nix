@@ -5,17 +5,20 @@
 
 let
     prog_name = "nix-haskell-tags";
-    desc = "Generate ctags/etags file from a Nix expression";
+    meta.description = "Generate ctags/etags file from a Nix expression";
     src = lib.sourceFilesBySuffices ./. [".nix" ".json"];
 in
 
-nix-project-lib.writeShellChecked prog_name desc
+nix-project-lib.writeShellCheckedExe prog_name
+{
+    inherit meta;
+}
 ''
 set -eu
 set -o pipefail
 
 
-. "${nix-project-lib.lib-sh}/bin/lib.sh"
+. "${nix-project-lib.lib-sh}/share/nix-project/lib.sh"
 
 
 NIX_EXE="$(command -v nix || true)"
@@ -38,7 +41,7 @@ USAGE: ${prog_name} [OPTION]...
 
 DESCRIPTION:
 
-    ${desc}
+    ${meta.description}
 
 OPTIONS:
 
