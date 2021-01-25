@@ -9,6 +9,7 @@
 #+LINK: github-actions https://github.com/shajra/nix-haskell-tags/actions
 #+LINK: haskell https://www.haskell.org
 #+LINK: haskell-cabal https://www.haskell.org/cabal/
+#+LINK: haskell-hiedb https://www.tweag.io/blog/2020-10-07-ghcide-fellowship-summary/
 #+LINK: haskell-hls https://github.com/haskell/haskell-language-server
 #+LINK: haskell.nix https://input-output-hk.github.io/haskell.nix/reference/modules/
 #+LINK: haskell-stack https://docs.haskellstack.org/en/stable/README/

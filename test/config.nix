@@ -3,10 +3,10 @@
     haskell-nix.useMaterialization = true;
     haskell-nix.checkMaterialization = false;
     # DESIGN: https://github.com/input-output-hk/hackage.nix/blob/master/index-state-hashes.nix
-    haskell-nix.plan-sha256 = "0r15xdh6ij55sc7xdlp0qcp0lid2pswcqpikvrlpp9fqxw44kq3j";
+    haskell-nix.plan-sha256 = "1ircq5z13cfvgm7migpz608ng7301b46bz4pga486b2qmbfnbfkl";
     haskell-nix.hackage.index = {
-        state = "2020-12-28T00:00:00Z";
-        sha256 = "ce5696846e316c2d151c69f5f292dfe1aceca540253757831d9081990a2a1d90";
+        state = "2021-01-24T00:00:00Z";
+        sha256 = "072c1d30ac3111a527f6647c8b646c0774fe382269a902c9e6e4fc1c18772f31";
     };
     haskell-nix.nixpkgs-pin = "nixpkgs-2009";
 }
