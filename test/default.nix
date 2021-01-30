@@ -1,5 +1,5 @@
 { sources ? import ../nix/sources
-, nixpkgs ? import sources.nixpkgs-stable { config = {}; overlays = []; }
+, nixpkgs ? import sources.nixpkgs-unstable { config = {}; overlays = []; }
 , config ? import ./config.nix
 }:
 
@@ -28,9 +28,7 @@ let
         compiler-nix-name = config.ghcVersion;
         index-state = config.haskell-nix.hackage.index.state;
         index-sha256 = config.haskell-nix.hackage.index.sha256;
-        plan-sha256 = config.haskell-nix.plan-sha256;
-        ${if config.haskell-nix.useMaterialization then "materialized" else null} =
-            ./materialized;
+        materialized = ./materialized;
         checkMaterialization = config.haskell-nix.checkMaterialization;
     }).nix-haskell-tags-example;
 
