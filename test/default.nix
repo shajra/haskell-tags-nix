@@ -1,6 +1,6 @@
 { sources ? import ../nix/sources
-, nixpkgs ? import sources.nixpkgs-unstable { config = {}; overlays = []; }
 , config ? import ./config.nix
+, nixpkgs ? import sources."nixpkgs-${config.nixpkgs.distribution}" { config = {}; overlays = []; }
 }:
 
 let
@@ -19,13 +19,13 @@ let
     src.example = cleanSrc ./example [".hs" ".cabal"];
 
     build.nixpkgs =
-        nixpkgs.pkgs.haskell.packages.${config.ghcVersion}.callCabal2nix
+        nixpkgs.pkgs.haskell.packages.${config.nixpkgs.ghcVersion}.callCabal2nix
             "nix-haskell-tags-example" src.example {};
 
     build.haskell-nix = (haskell-nix.project {
         name = "nix-haskell-tags-example-haskellnix";
         src = src.example;
-        compiler-nix-name = config.ghcVersion;
+        compiler-nix-name = config.haskell-nix.ghcVersion;
         index-state = config.haskell-nix.hackage.index.state;
         index-sha256 = config.haskell-nix.hackage.index.sha256;
         materialized = ./materialized;

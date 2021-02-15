@@ -10,8 +10,8 @@
         "integer-gmp".revision = (((hackage."integer-gmp")."1.0.3.0").revisions).default;
         };
       compiler = {
-        version = "8.10.3";
-        nix-name = "ghc8103";
+        version = "8.10.4";
+        nix-name = "ghc8104";
         packages = {
           "ghc-prim" = "0.6.1";
           "rts" = "1.0";
