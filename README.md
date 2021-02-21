@@ -373,6 +373,7 @@ nix-haskell-tags --help
         -w --work-dir PATH      directory to use as a working directory
         -f --file PATH          Nix expression of filepath to import
         -A --attr PATH          attr path to target derivations, multiple allowed
+           --arg NAME VALUE     argument to pass Nix expression if it's a function
     
         -o --output PATH        file for tags to source within /nix/store
         -O --output-local PATH  file for tags to source outside /nix/store

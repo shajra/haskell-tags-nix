@@ -30,5 +30,11 @@ jobs:
       with:
         name: all-hies
     - run: cat ~/.config/nix/nix.conf
-    - run: nix --print-build-logs build --file nix/ci.nix
-    - run: nix path-info --file nix/ci.nix
+    - run: |
+        nix --print-build-logs build \
+        --arg checkMaterialization true \
+        --file nix/ci.nix
+    - run: |
+        nix --print-build-logs path-info \
+        --arg checkMaterialization true \
+        --file nix/ci.nix

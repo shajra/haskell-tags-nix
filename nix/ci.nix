@@ -1,1 +1,2 @@
-import ../. // import ../test {}
+{checkMaterialization ? false}:
+import ../. // import ../test { inherit checkMaterialization; }

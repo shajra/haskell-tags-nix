@@ -5,6 +5,7 @@
 
 { nixFile
 , attrPaths ? []
+, exprArg ? {}
 , haskellNix ? false
 , emacs ? false
 , includeGhc ? false
@@ -19,7 +20,7 @@
 
 let
 
-    annotatedNixExprs = args.readNixFile nixFile attrPaths;
+    annotatedNixExprs = args.readNixFile nixFile attrPaths exprArg;
 
     fasttagsArgs = args.fasttagsArgs {
         inherit

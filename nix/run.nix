@@ -27,6 +27,7 @@ EMACS=false
 STATIC=false
 WORK_DIR="$(pwd)"
 ATTR_PATHS=()
+ATTR_ARGS=()
 EXCLUDE=()
 TAGS_STATIC_PATH=
 TAGS_DYNAMIC_PATH=
@@ -50,6 +51,7 @@ OPTIONS:
     -w --work-dir PATH      directory to use as a working directory
     -f --file PATH          Nix expression of filepath to import
     -A --attr PATH          attr path to target derivations, multiple allowed
+       --arg NAME VALUE     argument to pass Nix expression if it's a function
 
     -o --output PATH        file for tags to source within /nix/store
     -O --output-local PATH  file for tags to source outside /nix/store
@@ -82,6 +84,7 @@ main()
 {
     parse_args "$@"
     ARGS+=(--arg attrPaths "[ ''${ATTR_PATHS[*]} ]")
+    ARGS+=(--arg exprArg "{ ''${ATTR_ARGS[*]} }")
     ARGS+=(--arg exclude "[ ''${EXCLUDE[*]} ]")
     add_nix_to_path "$NIX_EXE"
     cd "$WORK_DIR"
@@ -129,6 +132,15 @@ parse_args()
             fi
             ATTR_PATHS+=("\"$attr_path\"")
             shift
+            ;;
+        --arg)
+            local attr_name="''${2:-}"
+            local attr_value="''${3:-}"
+            if [ -z "$attr_name" ] || [ -z "$attr_value" ]
+            then die "'$1' requires two arguments"
+            fi
+            ATTR_ARGS+=("$attr_name = $attr_value;")
+            shift 2
             ;;
         -o|--output)
             local path="''${2:-}"

@@ -1,5 +1,6 @@
 { sources ? import ../nix/sources
 , config ? import ./config.nix
+, checkMaterialization ? false
 , nixpkgs ? import sources."nixpkgs-${config.nixpkgs.distribution}" { config = {}; overlays = []; }
 }:
 
@@ -29,27 +30,30 @@ let
         index-state = config.haskell-nix.hackage.index.state;
         index-sha256 = config.haskell-nix.hackage.index.sha256;
         materialized = ./materialized;
-        checkMaterialization = config.haskell-nix.checkMaterialization;
+        inherit checkMaterialization;
     }).nix-haskell-tags-example;
 
     tagsMake.common = (import ../nix {}).run-static;
 
     tagsMake.nixpkgs = args: tagsMake.common ({
         haskellNix = false;
-        nixFile = import ./.;
+        nixFile = ./.;
         attrPaths = [ "build.nixpkgs" ];
     } // args);
 
-    tagsMake.haskell-nix = args: tagsMake.common ({
+    tagsMake.haskell-nix = check: args: tagsMake.common ({
         haskellNix = true;
-        nixFile = import ./.;
+        nixFile = ./.;
         attrPaths = [ "build.haskell-nix" ];
+        exprArg = { checkMaterialization = check; };
     } // args);
 
     option.buildType.np.tagsMake = tagsMake.nixpkgs;
     option.buildType.np.name = "nixpkgs";
-    option.buildType.hn.tagsMake = tagsMake.haskell-nix;
+    option.buildType.hn.tagsMake = tagsMake.haskell-nix checkMaterialization;
     option.buildType.hn.name = "haskellnix";
+    option.buildType.hn-unchecked.tagsMake = tagsMake.haskell-nix false;
+    option.buildType.hn-unchecked.name = "haskellnix";
     option.ghcTags.includeGhc.value = true;
     option.ghcTags.includeGhc.name = "includeGhc";
     option.ghcTags.excludeGhc.value = false;
@@ -108,19 +112,19 @@ let
 
 in with option; with buildType; with ghcTags; with targetTags; with format;
     { inherit build; }
-    // testMake np includeGhc includeTargets ctags
-    // testMake np includeGhc includeTargets etags
-    // testMake np includeGhc excludeTargets ctags
-    // testMake np includeGhc excludeTargets etags
-    // testMake np excludeGhc includeTargets ctags
-    // testMake np excludeGhc includeTargets etags
-    // testMake np excludeGhc excludeTargets ctags
-    // testMake np excludeGhc excludeTargets etags
-    // testMake hn includeGhc includeTargets ctags
-    // testMake hn includeGhc includeTargets etags
-    // testMake hn includeGhc excludeTargets ctags
-    // testMake hn includeGhc excludeTargets etags
-    // testMake hn excludeGhc includeTargets ctags
-    // testMake hn excludeGhc includeTargets etags
-    // testMake hn excludeGhc excludeTargets ctags
-    // testMake hn excludeGhc excludeTargets etags
+    // testMake np           includeGhc includeTargets ctags
+    // testMake np           includeGhc includeTargets etags
+    // testMake np           includeGhc excludeTargets ctags
+    // testMake np           includeGhc excludeTargets etags
+    // testMake np           excludeGhc includeTargets ctags
+    // testMake np           excludeGhc includeTargets etags
+    // testMake np           excludeGhc excludeTargets ctags
+    // testMake np           excludeGhc excludeTargets etags
+    // testMake hn           includeGhc includeTargets ctags
+    // testMake hn-unchecked includeGhc includeTargets etags
+    // testMake hn-unchecked includeGhc excludeTargets ctags
+    // testMake hn-unchecked includeGhc excludeTargets etags
+    // testMake hn-unchecked excludeGhc includeTargets ctags
+    // testMake hn-unchecked excludeGhc includeTargets etags
+    // testMake hn-unchecked excludeGhc excludeTargets ctags
+    // testMake hn-unchecked excludeGhc excludeTargets etags

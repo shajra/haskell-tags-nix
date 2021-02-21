@@ -330,7 +330,7 @@
    #+END_SRC
 
    #+RESULTS: nix-build-link
-   : /nix/store/0l8lkixpvqqlkrvdxv53d1fym0y9vgrp-nix-haskell-tags
+   : /nix/store/fg9mc57ypcxyipc232z8f26qngn9c6cv-nix-haskell-tags
 
    Following these symlinks, we can see the files the project provides:
 
@@ -359,7 +359,7 @@
    #+END_SRC
 
    #+RESULTS: nix-build-path
-   : /nix/store/0l8lkixpvqqlkrvdxv53d1fym0y9vgrp-nix-haskell-tags
+   : /nix/store/fg9mc57ypcxyipc232z8f26qngn9c6cv-nix-haskell-tags
 
 ** Running commands
 

@@ -30,7 +30,7 @@ let fasttagsArgs =
 
     importMaybe = f: if builtins.typeOf f == "path" then import f else f;
 
-    callMaybe = e: if builtins.typeOf e == "lambda" then e {} else e;
+    callMaybe = e: a: if builtins.typeOf e == "lambda" then e a else e;
 
     selection = e: p:
         let location = builtins.concatStringsSep "." p;
@@ -40,8 +40,8 @@ let fasttagsArgs =
     selectMaybe = e: ps:
         if ps == [] then [emptyAnnotated e] else builtins.map (selection e) ps;
 
-    readNixFile = nixFile: attrPaths:
-        selectMaybe (callMaybe (importMaybe nixFile))
+    readNixFile = nixFile: attrPaths: exprArg:
+        selectMaybe (callMaybe (importMaybe nixFile) exprArg)
             (splitAttrPaths attrPaths);
 
     fasttagsSrcs = srcs:
