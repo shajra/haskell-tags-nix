@@ -38,7 +38,7 @@ let fasttagsArgs =
         in { inherit nixExpr location; };
 
     selectMaybe = e: ps:
-        if ps == [] then [emptyAnnotated e] else builtins.map (selection e) ps;
+        if ps == [] then [(emptyAnnotated e)] else builtins.map (selection e) ps;
 
     readNixFile = nixFile: attrPaths: exprArg:
         selectMaybe (callMaybe (importMaybe nixFile) exprArg)
