@@ -19,8 +19,11 @@ let
 
     src.example = cleanSrc ./example [".hs" ".cabal"];
 
+    infra.nixpkgs = nixpkgs;
+    infra.haskell-nix = haskell-nix;
+
     build.nixpkgs =
-        nixpkgs.pkgs.haskell.packages.${config.nixpkgs.ghcVersion}.callCabal2nix
+        nixpkgs.haskell.packages.${config.nixpkgs.ghcVersion}.callCabal2nix
             "nix-haskell-tags-example" src.example {};
 
     build.haskell-nix = (haskell-nix.project {
@@ -49,11 +52,11 @@ let
     } // args);
 
     option.buildType.np.tagsMake = tagsMake.nixpkgs;
-    option.buildType.np.name = "nixpkgs";
+    option.buildType.np.name = "nixpkgs-cabal";
     option.buildType.hn.tagsMake = tagsMake.haskell-nix checkMaterialization;
     option.buildType.hn.name = "haskellnix";
-    option.buildType.hn-unchecked.tagsMake = tagsMake.haskell-nix false;
-    option.buildType.hn-unchecked.name = "haskellnix";
+    option.buildType.hn-noMatCheck.tagsMake = tagsMake.haskell-nix false;
+    option.buildType.hn-noMatCheck.name = "haskellnix";
     option.ghcTags.includeGhc.value = true;
     option.ghcTags.includeGhc.name = "includeGhc";
     option.ghcTags.excludeGhc.value = false;
@@ -111,20 +114,20 @@ let
         in { "${key}" = val; };
 
 in with option; with buildType; with ghcTags; with targetTags; with format;
-    { inherit build; }
-    // testMake np           includeGhc includeTargets ctags
-    // testMake np           includeGhc includeTargets etags
-    // testMake np           includeGhc excludeTargets ctags
-    // testMake np           includeGhc excludeTargets etags
-    // testMake np           excludeGhc includeTargets ctags
-    // testMake np           excludeGhc includeTargets etags
-    // testMake np           excludeGhc excludeTargets ctags
-    // testMake np           excludeGhc excludeTargets etags
-    // testMake hn           includeGhc includeTargets ctags
-    // testMake hn-unchecked includeGhc includeTargets etags
-    // testMake hn-unchecked includeGhc excludeTargets ctags
-    // testMake hn-unchecked includeGhc excludeTargets etags
-    // testMake hn-unchecked excludeGhc includeTargets ctags
-    // testMake hn-unchecked excludeGhc includeTargets etags
-    // testMake hn-unchecked excludeGhc excludeTargets ctags
-    // testMake hn-unchecked excludeGhc excludeTargets etags
+    { inherit build infra; }
+    // testMake np            includeGhc includeTargets ctags
+    // testMake np            includeGhc includeTargets etags
+    // testMake np            includeGhc excludeTargets ctags
+    // testMake np            includeGhc excludeTargets etags
+    // testMake np            excludeGhc includeTargets ctags
+    // testMake np            excludeGhc includeTargets etags
+    // testMake np            excludeGhc excludeTargets ctags
+    // testMake np            excludeGhc excludeTargets etags
+    // testMake hn            includeGhc includeTargets ctags
+    // testMake hn-noMatCheck includeGhc includeTargets etags
+    // testMake hn-noMatCheck includeGhc excludeTargets ctags
+    // testMake hn-noMatCheck includeGhc excludeTargets etags
+    // testMake hn-noMatCheck excludeGhc includeTargets ctags
+    // testMake hn-noMatCheck excludeGhc includeTargets etags
+    // testMake hn-noMatCheck excludeGhc excludeTargets ctags
+    // testMake hn-noMatCheck excludeGhc excludeTargets etags
