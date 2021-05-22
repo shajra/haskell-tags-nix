@@ -32,9 +32,9 @@
 
 * About this project
 
-  This project helps generate a [[ctags][tags file]] for [[haskell][Haskell]] projects that are built
-  with [[nix][Nix]] that can be used to navigate source code within editors like [[vim][Vim]] or
-  [[emacs][Emacs]].
+  This project provides an executable =nix-haskell-tags= to help generate a [[ctags][tags
+  file]] for [[haskell][Haskell]] projects that are built with [[nix][Nix]] that can be used to navigate
+  source code within editors like [[vim][Vim]] or [[emacs][Emacs]].
 
   The generated tags file will have all the transitive dependencies of the
   project(s) generated for.  This allows us to seamlessly hop from functions and
@@ -49,9 +49,11 @@
   This project relies on Nix to solve the first problem of retrieving the right
   source code.  There's a lot of reasons to use Nix to manage a software
   project, from repeatability to language/platform support.  Nix manages
-  dependencies exceptionally well, and also builds everything from source.  So
+  dependencies exceptionally well, and also builds everything from source.  The
+  source of each Haskell package built by Nix is stored under =/nix/store=.  So
   if we're already using Nix to manage our Haskell projects, we can just ask Nix
-  what the dependencies are and where Nix has saved the source code to.
+  what the dependencies are and where Nix has saved the source code within
+  =/nix/store=.
 
   Tags file generators like =etags= and =ctags= often use regex-like grammars
   for loosely parsing source code.  This often works surprisingly well enough,
@@ -80,6 +82,14 @@
   if Nix was not used at all.  This is a primary difference between Haskell.nix
   and Nixpkgs, though Haskell.nix has a lot of other differences not covered
   here.
+
+  Note that though Nixpkgs provides =buildStackProject= to build Stack projects
+  with Nix, this build does not result in source code saving to =/nix/store=.
+  Unfortunately, =nix-haskell-tags= doesn't support projects that use
+  =buildStackProject= (since there's no source code from the build to tag).  If
+  you have a project that only builds with Stack (say from specialized
+  configuration in =stack.yaml=), only Haskell.nix is supported by
+  =nix-haskell-tags=.
 
   If you're new to Nix, see [[file:doc/nix.org][the provided documentation on Nix]] for more on what
   Nix is, why we're motivated to use it, and how to get set up with it for this
@@ -167,8 +177,8 @@
 
    By default in the current working directory, you'll see two files generated,
    a =tags= file and a /tags generation/ script symlinked at
-   =run/tags-generate=.  The script can be run to update or regenerate the tags
-   file.
+   =run/tags-generate=.  The script can be run to quickly update or regenerate
+   the tags file.
 
    Tags can come from three types of source code:
 
@@ -274,7 +284,7 @@
      deleted by =nix-collect-garbage=
 
    - we may not want our tags file in =/nix/store= which would make it
-     read-only.
+     read-only (not updateable).
 
    The tags generation script has hard-coded references to the location of
    source code both inside and outside =/nix/store=.  This means that by using
@@ -295,11 +305,11 @@
    If you want a different name or location for the generation script, you can
    set it explicitly with the =--script-link= switch.
 
-   The tags generation script makes makes tags in two steps.  The first step
-   populates tags referencing source within =/nix/store=.  The second step
-   populates tags referencing source outside =/nix/store=.  Source stored within
-   =/nix/store= is typically downloaded source for third-party libraries.  The
-   source outside =/nix/store= is typically code you are actively developing.
+   The tags generation script makes tags in two steps.  The first step populates
+   tags referencing source within =/nix/store=.  The second step populates tags
+   referencing source outside =/nix/store=.  Source stored within =/nix/store=
+   is typically downloaded source for third-party libraries.  The source outside
+   =/nix/store= is typically code you are actively developing.
 
    Calling the tags generation script by default only regenerates tags for
    source outside =/nix/store=:
