@@ -6,4 +6,4 @@
  (run-attr       . "nix-haskell-tags-exe")
  (run-name       . "nix-haskell-tags")
  (run-target     . "nix-haskell-tags")
- (nixos-release  . "nixos-20.09"))
+ (nixos-release  . "nixos-21.05"))
