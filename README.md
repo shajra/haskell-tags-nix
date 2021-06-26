@@ -92,15 +92,15 @@ Here we build a tags file for the Nixpkgs build of our example project:
 nix-haskell-tags --file ./test --attr build.nixpkgs
 ```
 
-    LINKING SCRIPT: /nix/store/fn2cyvj25q1rlapsq9paimkliram61qj-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
+    LINKING SCRIPT: /nix/store/7qamrg4v4bc3wqpi8yh6lca7ra8vap9j-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
         /home/tnks/src/shajra/nix-haskell-tags/run/tags-generate
     
     SOURCES in /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps:
     - /nix/store/1dcbdgwj2zqkfskn0869n85y7pmkxaal-void-0.7.3.tar.gz-unpacked
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps
     
     SOURCES in /nix/store/xf3403gxl8x229f7ax5dbf3p7khbgfbh-tags-deps:
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/xf3403gxl8x229f7ax5dbf3p7khbgfbh-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/xf3403gxl8x229f7ax5dbf3p7khbgfbh-tags-deps
 
 By default in the current working directory, you'll see two files generated, a `tags` file and a *tags generation* script symlinked at `run/tags-generate`. The script can be run to quickly update or regenerate the tags file.
 
@@ -129,16 +129,16 @@ If you want to include tags for your target packages, you can call `nix-haskell-
 nix-haskell-tags --file ./test --attr build.nixpkgs --include-targets
 ```
 
-    LINKING SCRIPT: /nix/store/8js92sc4jqqbsvhcly0rqzskwprj038c-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
+    LINKING SCRIPT: /nix/store/93lqaxxx85pl2lndhwv5jrvxym9h1w1a-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
         /home/tnks/src/shajra/nix-haskell-tags/run/tags-generate
     
     SOURCES in /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps:
     - /nix/store/1dcbdgwj2zqkfskn0869n85y7pmkxaal-void-0.7.3.tar.gz-unpacked
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps
     
     SOURCES in /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps:
     - /home/tnks/src/shajra/nix-haskell-tags/test/example
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps
 
 ```shell
 cat tags
@@ -202,7 +202,7 @@ run/tags-generate
     
     SOURCES in /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps:
     - /home/tnks/src/shajra/nix-haskell-tags/test/example
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps
 
 But if you use the `--all` switch with the tags generation script, all tags will be updated, which might be useful if you've deleted your tags file:
 
@@ -213,11 +213,11 @@ run/tags-generate --all
     
     SOURCES in /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps:
     - /nix/store/1dcbdgwj2zqkfskn0869n85y7pmkxaal-void-0.7.3.tar.gz-unpacked
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps
     
     SOURCES in /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps:
     - /home/tnks/src/shajra/nix-haskell-tags/test/example
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o tags < /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps
 
 Note that because the tags generation script has explicit references to dependencies, the script can become stale if dependencies change in your Nix expression. When this happens, you can rerun `nix-haskell-tags` to regenerate the script and all tags.
 
@@ -231,16 +231,16 @@ To deal with this limitation of `fast-tags` we have the option of generating two
 nix-haskell-tags --file ./test --attr build.nixpkgs --emacs --include-targets
 ```
 
-    LINKING SCRIPT: /nix/store/z7gva3damd1si0yfc89dhd4wjb6pxdf3-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
+    LINKING SCRIPT: /nix/store/w6d4vmx7ianm3jfslzc5nvr5yh6m1042-nix-haskell-tags-generate/bin/nix-haskell-tags-generate ->
         /home/tnks/src/shajra/nix-haskell-tags/run/tags-generate
     
     SOURCES in /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps:
     - /nix/store/1dcbdgwj2zqkfskn0869n85y7pmkxaal-void-0.7.3.tar.gz-unpacked
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o TAGS --emacs < /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o TAGS --emacs < /nix/store/9b4gml71vlf6bj9rkzicw0ql5x0sz8i5-tags-deps
     
     SOURCES in /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps:
     - /home/tnks/src/shajra/nix-haskell-tags/test/example
-    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/4hykdj5p7bw3nvcb7qagbqbbr8q1izzq-fast-tags-2.0.0/bin/fast-tags -R -o TAGS.local --emacs < /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps
+    RUNNING: /nix/store/1hvm45djn8wkfg64gbmlqpfj4dnjh594-findutils-4.7.0/bin/xargs /nix/store/adiy47q60037r71jffim220rm66y1flm-fast-tags-2.0.0/bin/fast-tags -R -o TAGS.local --emacs < /nix/store/kfv2bsv606rlinrijq7p88d877m1jk57-tags-deps
 
 For Emacs, by default a tags file named "TAGS" stores tags for source code within `/nix/store`.
 
@@ -326,7 +326,7 @@ nix build '(
 readlink -f result
 ```
 
-    /nix/store/9dahc2qpszmpw75is8w5vy4qz8qz5x8d-tags
+    /nix/store/n67yf4iri48if6j4pwqg6vghfhbsc84f-tags
 
 With `nix-haskell-tags-dynamic` we can make a tags generation script:
 
@@ -350,7 +350,7 @@ nix build '(
 readlink -f result
 ```
 
-    /nix/store/8js92sc4jqqbsvhcly0rqzskwprj038c-nix-haskell-tags-generate
+    /nix/store/93lqaxxx85pl2lndhwv5jrvxym9h1w1a-nix-haskell-tags-generate
 
 In both `nix-haskell-tags-static` and `nix-haskell-tags-dynamic` functions, the only required attribute is `nixExprs`.
 
