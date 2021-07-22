@@ -27,14 +27,14 @@ let
         includeTargets;
     };
 
-    prog_name = "nix-haskell-tags-generate";
+    progName = "nix-haskell-tags-generate";
     meta.description = "Generate ctags/etags for a specific project";
     onlyInStore = lib.hasPrefix builtins.storeDir;
     splitSrcs = lib.partition onlyInStore depSrcs;
     storeSrcs = args.fasttagsSrcs splitSrcs.right;
     localSrcs = args.fasttagsSrcs splitSrcs.wrong;
 
-in nix-project-lib.writeShellCheckedExe prog_name
+in nix-project-lib.writeShellCheckedExe progName
 {
     inherit meta;
 }
@@ -54,7 +54,7 @@ TAGS_DYNAMIC_PATH="${builtins.toString tagsDynamicPath}"
 print_usage()
 {
     "${coreutils}/bin/cat" - <<EOF
-USAGE: ${prog_name} [OPTION]...
+USAGE: ${progName} [OPTION]...
 
 DESCRIPTION:
 

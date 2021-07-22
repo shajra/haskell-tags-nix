@@ -4,12 +4,12 @@
 }:
 
 let
-    prog_name = "nix-haskell-tags";
+    progName = "nix-haskell-tags";
     meta.description = "Generate ctags/etags file from a Nix expression";
     src = lib.sourceFilesBySuffices ./. [".nix" ".json"];
 in
 
-nix-project-lib.writeShellCheckedExe prog_name
+nix-project-lib.writeShellCheckedExe progName
 {
     inherit meta;
 }
@@ -38,7 +38,7 @@ SKIP_REBUILD=false
 print_usage()
 {
     "${coreutils}/bin/cat" - <<EOF
-USAGE: ${prog_name} [OPTION]...
+USAGE: ${progName} [OPTION]...
 
 DESCRIPTION:
 
