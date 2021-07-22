@@ -115,6 +115,9 @@ In the remainder of this document, we'll use `.` instead of `default.nix` since 
 
 The following result is returned by our prior execution of `nix search --no-cache --file .`:
 
+    * nix-haskell-tags-exe (nix-haskell-tags)
+      Generate ctags/etags file from a Nix expression
+
 We can see that a package named "nix-haskell-tags" can be accessed with the `nix-haskell-tags-exe` attribute path in the Nix expression in the project root's `default.nix`. Not shown in the search results above, this package happens to provide the executable `nix-haskell-tags`.
 
 We can build this package with `nix build` from the project root:
@@ -133,7 +136,7 @@ After a successful call of `nix build`, you'll see one or more symlinks for each
 readlink result*
 ```
 
-    /nix/store/j0b4j82rfrd90q8hh8bl4v638jly86rz-nix-haskell-tags
+    /nix/store/8ixcgcc0jy0rjpv5y596p6k32szyffap-nix-haskell-tags
 
 Following these symlinks, we can see the files the project provides:
 
@@ -155,7 +158,7 @@ It's common to configure these "result" symlinks as ignored in source control to
 nix path-info --file . nix-haskell-tags-exe
 ```
 
-    /nix/store/j0b4j82rfrd90q8hh8bl4v638jly86rz-nix-haskell-tags
+    /nix/store/8ixcgcc0jy0rjpv5y596p6k32szyffap-nix-haskell-tags
 
 ## Running commands<a id="sec-4-3"></a>
 

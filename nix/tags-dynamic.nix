@@ -37,6 +37,11 @@ let
 in nix-project-lib.writeShellCheckedExe progName
 {
     inherit meta;
+    path = [
+        coreutils
+        findutils
+        haskellPackages.fast-tags
+    ];
 }
 ''
 set -eu
@@ -53,7 +58,7 @@ TAGS_DYNAMIC_PATH="${builtins.toString tagsDynamicPath}"
 
 print_usage()
 {
-    "${coreutils}/bin/cat" - <<EOF
+    cat - <<EOF
 USAGE: ${progName} [OPTION]...
 
 DESCRIPTION:
@@ -107,8 +112,8 @@ make_tags()
     while read -r f
     do echo "- $f"
     done < "$srcs_file"
-    echo RUNNING: "${findutils}/bin/xargs" \
-        "${haskellPackages.fast-tags}/bin/fast-tags" -R -o "$tags_path" \
+    echo RUNNING: xargs \
+        fast-tags -R -o "$tags_path" \
         ${fasttagsArgs.emacs} \
         ${fasttagsArgs.exclude} \
         ${fasttagsArgs.followSymlinks} \
@@ -117,8 +122,8 @@ make_tags()
         ${fasttagsArgs.fullyQualified} \
         ${fasttagsArgs.srcPrefix} \
         \< "$srcs_file"
-    "${findutils}/bin/xargs" \
-        "${haskellPackages.fast-tags}/bin/fast-tags" -R -o "$tags_path" \
+    xargs \
+        fast-tags -R -o "$tags_path" \
         ${fasttagsArgs.emacs} \
         ${fasttagsArgs.exclude} \
         ${fasttagsArgs.followSymlinks} \
