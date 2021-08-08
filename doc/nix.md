@@ -156,7 +156,7 @@ After a successful call of `nix build`, you'll see one or more symlinks for each
 readlink result*
 ```
 
-    /nix/store/qa8fh36mwkcyhnzv0k25lpfxjam55ja7-nix-haskell-tags
+    /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-nix-haskell-tags
 
 Following these symlinks, we can see the files the project provides:
 
@@ -178,7 +178,7 @@ It's common to configure these "result" symlinks as ignored in source control to
 nix path-info --file . nix-haskell-tags-exe
 ```
 
-    /nix/store/qa8fh36mwkcyhnzv0k25lpfxjam55ja7-nix-haskell-tags
+    /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-nix-haskell-tags
 
 ## Running commands<a id="sec-5-3"></a>
 
