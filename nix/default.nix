@@ -1,7 +1,9 @@
-{ sources ? import ./sources
+{ externalOverrides ? {}
 }:
 
 let
+
+    external = import ./external // externalOverrides;
 
     overlay = self: super: {
         args = pkgs.callPackage (import ./args.nix) {};
@@ -10,14 +12,14 @@ let
         deps-set = self.callPackage (import ./deps-set.nix) {};
         deps-srcs = self.callPackage (import ./deps-srcs.nix) {};
         deps-unpack = self.callPackage (import ./deps-unpack.nix) {};
-        nix-project-lib = (import sources.nix-project).nix-project-lib;
+        nix-project-lib = (import external.nix-project).nix-project-lib;
         tags-dynamic = pkgs.callPackage (import ./tags-dynamic.nix) {};
         tags-static = pkgs.callPackage (import ./tags-static.nix) {};
     };
 
-    pkgs = import sources.nixpkgs-stable { config = {}; overlays = [overlay]; };
+    pkgs = import external.nixpkgs-stable { config = {}; overlays = [overlay]; };
 
-    nix-project = import sources.nix-project;
+    nix-project = import external.nix-project;
 
     run-dynamic = pkgs.callPackage (import ./run-dynamic.nix) {};
     nix-haskell-tags-dynamic = pkgs.callPackage (import ./eval-dynamic.nix) {};

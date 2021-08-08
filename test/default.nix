@@ -1,17 +1,22 @@
-{ sources ? import ../nix/sources
+{ externalOverrides ? {}
 , config ? import ./config.nix
 , checkMaterialization ? false
-, nixpkgs ? import sources."nixpkgs-${config.nixpkgs.distribution}" { config = {}; overlays = []; }
 }:
 
 let
+
+    external = import ../nix/external // externalOverrides;
+
+    nixpkgs = import external."nixpkgs-${config.nixpkgs.distribution}" {
+        config = {}; overlays = [];
+    };
 
     lib = nixpkgs.lib;
 
     cleanSrc = nixpkgs.lib.sourceFilesBySuffices;
 
     haskell-nix =
-        let hn = import sources."haskell.nix" {};
+        let hn = import external."haskell.nix" {};
             nixpkgsSrc = hn.sources."${config.haskell-nix.nixpkgs-pin}";
             nixpkgsOrigArgs = hn.nixpkgsArgs;
             nixpkgsArgs = nixpkgsOrigArgs // { config = {}; };

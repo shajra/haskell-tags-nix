@@ -383,7 +383,7 @@ nix-haskell-tags --help
         -l --script-link PATH   where to link tags generation script (ignored for -s)
         -L --no-script-link     don't make a script link
         -S --skip-rebuild       skip rebuilding script and tags within /nix/store
-    			    (unneeded for -s)
+                                (unneeded for -s)
     
         -H --haskell-nix        interpret input as Haskell.nix package
         -e --emacs              generate tags in Emacs format (otherwise Vi)
