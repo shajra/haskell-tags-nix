@@ -29,17 +29,17 @@ let
 
     build.nixpkgs =
         nixpkgs.haskell.packages.${config.nixpkgs.ghcVersion}.callCabal2nix
-            "nix-haskell-tags-example" src.example {};
+            "haskell-tags-nix-example" src.example {};
 
     build.haskell-nix = (haskell-nix.project {
-        name = "nix-haskell-tags-example-haskellnix";
+        name = "haskell-tags-nix-example-haskellnix";
         src = src.example;
         compiler-nix-name = config.haskell-nix.ghcVersion;
         index-state = config.haskell-nix.hackage.index.state;
         index-sha256 = config.haskell-nix.hackage.index.sha256;
         materialized = ./materialized;
         inherit checkMaterialization;
-    }).nix-haskell-tags-example;
+    }).haskell-tags-nix-example;
 
     tagsMake.common = (import ../nix {}).run-static;
 

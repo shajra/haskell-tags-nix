@@ -1,11 +1,11 @@
 cabal-version:       >=1.10
-name:                nix-haskell-tags-example
+name:                haskell-tags-nix-example
 version:             0.1.0.0
 author:              Sukant Hajra
 maintainer:          rrudbskr5g@snkmail.com
 build-type:          Simple
 
-executable nix-haskell-tags-example
+executable haskell-tags-nix-example
   main-is:             Main.hs
   hs-source-dirs:      src
   build-depends:       base, void

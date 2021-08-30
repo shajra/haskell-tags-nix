@@ -6,7 +6,7 @@
 #+LINK: emacs-wiki-tags https://www.emacswiki.org/emacs/EmacsTags
 #+LINK: emacs-xref-multi https://gist.github.com/rossabaker/52d60669192b0590c5c1775b1798ffa4
 #+LINK: fast-tags https://hackage.haskell.org/package/fast-tags
-#+LINK: github-actions https://github.com/shajra/nix-haskell-tags/actions
+#+LINK: github-actions https://github.com/shajra/haskell-tags-nix/actions
 #+LINK: haskell https://www.haskell.org
 #+LINK: haskell-cabal https://www.haskell.org/cabal/
 #+LINK: haskell-hiedb https://www.tweag.io/blog/2020-10-07-ghcide-fellowship-summary/

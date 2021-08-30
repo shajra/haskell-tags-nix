@@ -4,7 +4,7 @@
 }:
 
 let
-    progName = "nix-haskell-tags";
+    progName = "haskell-tags-nix";
     meta.description = "Generate ctags/etags file from a Nix expression";
     src = lib.sourceFilesBySuffices ./. [".nix" ".json"];
 in
@@ -254,7 +254,7 @@ link_script_maybe()
     else
         nix build --no-link "''${ARGS[@]}" run-dynamic >/dev/null
         local out; out="$(nix path-info "''${ARGS[@]}" run-dynamic)"
-        local script="$out/bin/nix-haskell-tags-generate"
+        local script="$out/bin/haskell-tags-nix-generate"
         if [ -n "$SCRIPT_PATH" ]
         then
             echo "LINKING SCRIPT: $script ->"
@@ -280,7 +280,7 @@ run_script()
         --ignore-environment \
         "''${ARGS[@]}" \
         run-dynamic \
-        --command nix-haskell-tags-generate "''${switches[@]}"
+        --command haskell-tags-nix-generate "''${switches[@]}"
     fi
 }
 

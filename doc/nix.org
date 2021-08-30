@@ -267,7 +267,7 @@ this project, we can execute:
 #+END_SRC
 
 #+RESULTS: nix-search
-: * nix-haskell-tags-exe (nix-haskell-tags)
+: * haskell-tags-nix-exe (haskell-tags-nix)
 :   Generate ctags/etags file from a Nix expression
 : 
 
@@ -323,7 +323,7 @@ The following result is one returned by our prior execution of ~nix search
 #+END_SRC
 
 #+RESULTS: nix-search-specific
-: * nix-haskell-tags-exe (nix-haskell-tags)
+: * haskell-tags-nix-exe (haskell-tags-nix)
 :   Generate ctags/etags file from a Nix expression
 
 We can see that a package named {{{package-name}}} can be accessed with the
@@ -357,7 +357,7 @@ have a name prefixed with "result" and point back to the respective build in
 #+END_SRC
 
 #+RESULTS: nix-build-link
-: /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-nix-haskell-tags
+: /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-haskell-tags-nix
 
 Following these symlinks, we can see the files the project provides:
 
@@ -369,7 +369,7 @@ Following these symlinks, we can see the files the project provides:
 #+RESULTS: nix-build-tree
 : result
 : └── bin
-:     └── nix-haskell-tags
+:     └── haskell-tags-nix
 : 
 : 1 directory, 1 file
 
@@ -386,7 +386,7 @@ you can use =nix path-info= after a successful build:
 #+END_SRC
 
 #+RESULTS: nix-build-path
-: /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-nix-haskell-tags
+: /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-haskell-tags-nix
 
 ** Running commands
 
@@ -411,7 +411,7 @@ path from {{{run-src}}}, we can call the following:
 #+END_SRC
 
 #+RESULTS: nix-run
-: USAGE: nix-haskell-tags [OPTION]...
+: USAGE: haskell-tags-nix [OPTION]...
 : 
 : DESCRIPTION:
 : 
@@ -475,7 +475,7 @@ To install the {{{package-target}}} {{{package-type}}}, which is accessed by the
 #+END_SRC
 
 #+RESULTS: nix-env-install
-: installing 'nix-haskell-tags'
+: installing 'haskell-tags-nix'
 
 We can see this installation by querying what's been installed:
 
@@ -485,7 +485,7 @@ We can see this installation by querying what's been installed:
 #+END_SRC
 
 #+RESULTS: nix-env-query-2
-: nix-haskell-tags
+: haskell-tags-nix
 
 And if we want to uninstall a program from our active profile, we do so by its
 name, in this case {{{package-name}}}:
@@ -496,7 +496,7 @@ name, in this case {{{package-name}}}:
 #+END_SRC
 
 #+RESULTS: nix-env-uninstall
-: uninstalling 'nix-haskell-tags'
+: uninstalling 'haskell-tags-nix'
 
 Note that we've installed our package using its attribute path
 ({{{package-attr}}}) within the referenced Nix expression. But we uninstall it

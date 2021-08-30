@@ -27,7 +27,7 @@ let
         includeTargets;
     };
 
-    progName = "nix-haskell-tags-generate";
+    progName = "haskell-tags-nix-generate";
     meta.description = "Generate ctags/etags for a specific project";
     onlyInStore = lib.hasPrefix builtins.storeDir;
     splitSrcs = lib.partition onlyInStore depSrcs;

@@ -22,10 +22,10 @@ let
     nix-project = import external.nix-project;
 
     run-dynamic = pkgs.callPackage (import ./run-dynamic.nix) {};
-    nix-haskell-tags-dynamic = pkgs.callPackage (import ./eval-dynamic.nix) {};
+    haskell-tags-nix-dynamic = pkgs.callPackage (import ./eval-dynamic.nix) {};
     run-static = pkgs.callPackage (import ./run-static.nix) {};
-    nix-haskell-tags-static = pkgs.callPackage (import ./eval-static.nix) {};
-    nix-haskell-tags-exe = pkgs.callPackage (import ./run.nix) {};
+    haskell-tags-nix-static = pkgs.callPackage (import ./eval-static.nix) {};
+    haskell-tags-nix-exe = pkgs.callPackage (import ./run.nix) {};
 
 in
 
@@ -33,8 +33,8 @@ nix-project // {
     inherit
     pkgs
     run-dynamic
-    nix-haskell-tags-dynamic
+    haskell-tags-nix-dynamic
     run-static
-    nix-haskell-tags-static
-    nix-haskell-tags-exe;
+    haskell-tags-nix-static
+    haskell-tags-nix-exe;
 }

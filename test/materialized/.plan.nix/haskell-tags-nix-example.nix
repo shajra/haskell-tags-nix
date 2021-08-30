@@ -11,7 +11,7 @@
     flags = {};
     package = {
       specVersion = "1.10";
-      identifier = { name = "nix-haskell-tags-example"; version = "0.1.0.0"; };
+      identifier = { name = "haskell-tags-nix-example"; version = "0.1.0.0"; };
       license = "NONE";
       copyright = "";
       maintainer = "rrudbskr5g@snkmail.com";
@@ -32,7 +32,7 @@
       };
     components = {
       exes = {
-        "nix-haskell-tags-example" = {
+        "haskell-tags-nix-example" = {
           depends = [
             (hsPkgs."base" or (errorHandler.buildDepError "base"))
             (hsPkgs."void" or (errorHandler.buildDepError "void"))

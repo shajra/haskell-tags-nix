@@ -25,7 +25,7 @@ Note that this document only covers the Nix package manager, an not [NixOS](http
 
 This project uses the [Nix package manager](https://nixos.org/nix) to download all necessary dependencies and build everything from source. In this regard, Nix is helpful as not just a package manager, but also a build tool. Nix helps us get from raw source files to not only built executables, but all the way to a Nix package, which we can install with Nix if we like.
 
-[This project's continuous integration (using GitHub Actions)](https://github.com/shajra/nix-haskell-tags/actions) caches built packages at [Cachix](https://cachix.org), a service for caching pre-built Nix packages. If you don't want to wait for a full local build when first using this project, setting up Nix to pull from Cachix is recommended.
+[This project's continuous integration (using GitHub Actions)](https://github.com/shajra/haskell-tags-nix/actions) caches built packages at [Cachix](https://cachix.org), a service for caching pre-built Nix packages. If you don't want to wait for a full local build when first using this project, setting up Nix to pull from Cachix is recommended.
 
 Within this project, the various files with a ".nix" extension are Nix files, each of which contains an expression written in the [Nix expression language](https://nixos.org/nix/manual/#ch-expression-language) used by the Nix package manager to specify packages. If you get proficient with this language, you can use these expressions as a starting point to compose your own packages beyond what's provided in this project.
 
@@ -107,7 +107,7 @@ Once you learn the Nix language, you can read these files to see what kind of va
 nix search --file default.nix --no-cache
 ```
 
-    * nix-haskell-tags-exe (nix-haskell-tags)
+    * haskell-tags-nix-exe (haskell-tags-nix)
       Generate ctags/etags file from a Nix expression
 
 If you don't get the results above, see the [section on understanding derivations](#nix-drv) for an explanation of a likely problem and workaround.
@@ -135,15 +135,15 @@ In the remainder of this document, we'll use `.` instead of `default.nix` since 
 
 The following result is one returned by our prior execution of `nix search --no-cache --file .`:
 
-    * nix-haskell-tags-exe (nix-haskell-tags)
+    * haskell-tags-nix-exe (haskell-tags-nix)
       Generate ctags/etags file from a Nix expression
 
-We can see that a package named "nix-haskell-tags" can be accessed with the `nix-haskell-tags-exe` attribute path in the Nix expression in the project root's `default.nix`. Not shown in the search results above, this package happens to provide the executable `nix-haskell-tags`.
+We can see that a package named "haskell-tags-nix" can be accessed with the `haskell-tags-nix-exe` attribute path in the Nix expression in the project root's `default.nix`. Not shown in the search results above, this package happens to provide the executable `haskell-tags-nix`.
 
 We can build this package with `nix build` from the project root:
 
 ```shell
-nix build --file . nix-haskell-tags-exe
+nix build --file . haskell-tags-nix-exe
 ```
 
 The positional arguments to `nix build` are *installables*, which can be referenced by attribute paths. If you supply none then all derivations found are built by default.
@@ -156,7 +156,7 @@ After a successful call of `nix build`, you'll see one or more symlinks for each
 readlink result*
 ```
 
-    /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-nix-haskell-tags
+    /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-haskell-tags-nix
 
 Following these symlinks, we can see the files the project provides:
 
@@ -166,7 +166,7 @@ tree -l result*
 
     result
     └── bin
-        └── nix-haskell-tags
+        └── haskell-tags-nix
     
     1 directory, 1 file
 
@@ -175,10 +175,10 @@ It's common to configure these "result" symlinks as ignored in source control to
 `nix build` has a `--no-link` switch in case you want to build packages without creating "result" symlinks. To get the paths where your packages are located, you can use `nix path-info` after a successful build:
 
 ```shell
-nix path-info --file . nix-haskell-tags-exe
+nix path-info --file . haskell-tags-nix-exe
 ```
 
-    /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-nix-haskell-tags
+    /nix/store/5rn2qn8715lmzyi4pkkbznxfd6nx3wfk-haskell-tags-nix
 
 ## Running commands<a id="sec-5-3"></a>
 
@@ -186,16 +186,16 @@ We can run commands in Nix-curated environments with `nix run`. Nix will take ex
 
 With `nix run`, you don't even have to build the package first with `nix build` or mess around with "result" symlinks. `nix run` will build the project if it's not yet been built.
 
-For example, to get the help message for the `nix-haskell-tags` executable provided by the `nix-haskell-tags` package selected by the `nix-haskell-tags-exe` attribute path from `.`, we can call the following:
+For example, to get the help message for the `haskell-tags-nix` executable provided by the `haskell-tags-nix` package selected by the `haskell-tags-nix-exe` attribute path from `.`, we can call the following:
 
 ```shell
 nix run \
     --file . \
-    nix-haskell-tags-exe \
-    --command nix-haskell-tags --help
+    haskell-tags-nix-exe \
+    --command haskell-tags-nix --help
 ```
 
-    USAGE: nix-haskell-tags [OPTION]...
+    USAGE: haskell-tags-nix [OPTION]...
     
     DESCRIPTION:
     
@@ -228,13 +228,13 @@ We can query what's installed in the active profile with the `--query` switch:
 nix-env --query
 ```
 
-To install the `nix-haskell-tags` executable, which is accessed by the `nix-haskell-tags-exe` in our top-level `default.nix` file, we'd run the following:
+To install the `haskell-tags-nix` executable, which is accessed by the `haskell-tags-nix-exe` in our top-level `default.nix` file, we'd run the following:
 
 ```shell
-nix-env --install --file . --attr nix-haskell-tags-exe 2>&1
+nix-env --install --file . --attr haskell-tags-nix-exe 2>&1
 ```
 
-    installing 'nix-haskell-tags'
+    installing 'haskell-tags-nix'
 
 We can see this installation by querying what's been installed:
 
@@ -242,17 +242,17 @@ We can see this installation by querying what's been installed:
 nix-env --query
 ```
 
-    nix-haskell-tags
+    haskell-tags-nix
 
-And if we want to uninstall a program from our active profile, we do so by its name, in this case "nix-haskell-tags":
+And if we want to uninstall a program from our active profile, we do so by its name, in this case "haskell-tags-nix":
 
 ```shell
-nix-env --uninstall nix-haskell-tags 2>&1
+nix-env --uninstall haskell-tags-nix 2>&1
 ```
 
-    uninstalling 'nix-haskell-tags'
+    uninstalling 'haskell-tags-nix'
 
-Note that we've installed our package using its attribute path (`nix-haskell-tags-exe`) within the referenced Nix expression. But we uninstall it using the package name ("nix-haskell-tags"), which may or may not be the same as the attribute path. When a package is installed, Nix keeps no reference to the expression that evaluated to the derivation of the installed package. The attribute path is only relevant to this expression. In fact, two different expressions could evaluate to the exact same derivation, but use different attribute paths. This is why we uninstall packages by their package name.
+Note that we've installed our package using its attribute path (`haskell-tags-nix-exe`) within the referenced Nix expression. But we uninstall it using the package name ("haskell-tags-nix"), which may or may not be the same as the attribute path. When a package is installed, Nix keeps no reference to the expression that evaluated to the derivation of the installed package. The attribute path is only relevant to this expression. In fact, two different expressions could evaluate to the exact same derivation, but use different attribute paths. This is why we uninstall packages by their package name.
 
 Also, if you look at the location for your profile, you'll see that Nix retains the symlink trees of previous generations of your profile. In fact you can even rollback to a previous profile with the `--rollback` switch. You can delete old generations of your profile with the `--delete-generations` switch.
 

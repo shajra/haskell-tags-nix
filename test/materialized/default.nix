@@ -23,17 +23,17 @@
   extras = hackage:
     {
       packages = {
-        nix-haskell-tags-example = ./.plan.nix/nix-haskell-tags-example.nix;
+        haskell-tags-nix-example = ./.plan.nix/haskell-tags-nix-example.nix;
         };
       };
   modules = [
     ({ lib, ... }:
-      { packages = { "nix-haskell-tags-example" = { flags = {}; }; }; })
+      { packages = { "haskell-tags-nix-example" = { flags = {}; }; }; })
     ({ lib, ... }:
       {
         packages = {
           "ghc-prim".components.library.planned = lib.mkOverride 900 true;
-          "nix-haskell-tags-example".components.exes."nix-haskell-tags-example".planned = lib.mkOverride 900 true;
+          "haskell-tags-nix-example".components.exes."haskell-tags-nix-example".planned = lib.mkOverride 900 true;
           "integer-gmp".components.library.planned = lib.mkOverride 900 true;
           "void".components.library.planned = lib.mkOverride 900 true;
           "base".components.library.planned = lib.mkOverride 900 true;

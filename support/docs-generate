@@ -8,7 +8,7 @@ nix run \
     --keep LOCALE_ARCHIVE \
     --file nix \
     nix-project-org2gfm \
-    nix-haskell-tags-exe \
+    haskell-tags-nix-exe \
     pkgs.ansifilter \
     pkgs.coreutils \
     pkgs.gnutar \
