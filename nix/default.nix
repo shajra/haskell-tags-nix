@@ -5,7 +5,8 @@ let
 
     external = import ./external // externalOverrides;
 
-    overlay = self: super: {
+    overlay = self: super: import external.nix-project // {
+
         args = pkgs.callPackage (import ./args.nix) {};
         deps-haskellNix = self.callPackage (import ./deps-haskellnix.nix) {};
         deps-nixpkgs = self.callPackage (import ./deps-nixpkgs.nix) {};
@@ -15,26 +16,16 @@ let
         nix-project-lib = (import external.nix-project).nix-project-lib;
         tags-dynamic = pkgs.callPackage (import ./tags-dynamic.nix) {};
         tags-static = pkgs.callPackage (import ./tags-static.nix) {};
+
+        run-dynamic = pkgs.callPackage (import ./run-dynamic.nix) {};
+        haskell-tags-nix-dynamic = pkgs.callPackage (import ./eval-dynamic.nix) {};
+        run-static = pkgs.callPackage (import ./run-static.nix) {};
+        haskell-tags-nix-static = pkgs.callPackage (import ./eval-static.nix) {};
+        haskell-tags-nix-exe = pkgs.callPackage (import ./run.nix) {};
+
     };
 
     pkgs = import external.nixpkgs-stable { config = {}; overlays = [overlay]; };
 
-    nix-project = import external.nix-project;
 
-    run-dynamic = pkgs.callPackage (import ./run-dynamic.nix) {};
-    haskell-tags-nix-dynamic = pkgs.callPackage (import ./eval-dynamic.nix) {};
-    run-static = pkgs.callPackage (import ./run-static.nix) {};
-    haskell-tags-nix-static = pkgs.callPackage (import ./eval-static.nix) {};
-    haskell-tags-nix-exe = pkgs.callPackage (import ./run.nix) {};
-
-in
-
-nix-project // {
-    inherit
-    pkgs
-    run-dynamic
-    haskell-tags-nix-dynamic
-    run-static
-    haskell-tags-nix-static
-    haskell-tags-nix-exe;
-}
+in pkgs

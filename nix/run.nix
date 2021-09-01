@@ -112,63 +112,55 @@ parse_args()
             exit 0
             ;;
         -w|--work-dir)
-            local work_dir="''${2:-}"
-            if ! [ -d "$work_dir" ]
+            if ! [ -d "''${2:-}" ]
             then die "'$1' requires a directory as an argument"
             fi
-            WORK_DIR="$work_dir"
+            WORK_DIR="''${2:-}"
             shift
             ;;
         -f|--file)
-            local nix_file="''${2:-}"
-            if [ -z "$nix_file" ]
+            if [ -z "''${2:-}" ]
             then die "'$1' requires argument"
             fi
-            ARGS+=(--arg nixFile "$nix_file")
+            ARGS+=(--arg nixFile "''${2:-}")
             shift
             ;;
         -A|--attr)
-            local attr_path="''${2:-}"
-            if [ -z "$attr_path" ]
+            if [ -z "''${2:-}" ]
             then die "'$1' requires argument"
             fi
-            ATTR_PATHS+=("\"$attr_path\"")
+            ATTR_PATHS+=("\"''${2:-}\"")
             shift
             ;;
         --arg)
-            local attr_name="''${2:-}"
-            local attr_value="''${3:-}"
-            if [ -z "$attr_name" ] || [ -z "$attr_value" ]
+            if [ -z "''${2:-}" ] || [ -z "''${3:-}" ]
             then die "'$1' requires two arguments"
             fi
-            ATTR_ARGS+=("$attr_name = $attr_value;")
+            ATTR_ARGS+=("''${2:-} = ''${3:-};")
             shift 2
             ;;
         -o|--output)
-            local path="''${2:-}"
-            if [ -z "$path" ]
+            if [ -z "''${2:-}" ]
             then die "'$1' requires argument"
             fi
-            TAGS_STATIC_PATH="$path"
+            TAGS_STATIC_PATH="''${2:-}"
             shift
             ;;
         -O|--output-local)
-            local path="''${2:-}"
-            if [ -z "$path" ]
+            if [ -z "''${2:-}" ]
             then die "'$1' requires argument"
             fi
-            TAGS_DYNAMIC_PATH="$path"
+            TAGS_DYNAMIC_PATH="''${2:-}"
             shift
             ;;
         -s|--static)
             STATIC=true
             ;;
         -l|--script-link)
-            local script_path="''${2:-}"
-            if [ -z "$script_path" ]
+            if [ -z "''${2:-}" ]
             then die "'$1' requires argument"
             fi
-            SCRIPT_PATH="$script_path"
+            SCRIPT_PATH="''${2:-}"
             shift
             ;;
         -L|--no-script-link)
@@ -195,11 +187,10 @@ parse_args()
             ARGS+=(--arg includeTargets true)
             ;;
         -x|--exclude)
-            local exclude="''${2:-}"
-            if [ -z "$exclude" ]
+            if [ -z "''${2:-}" ]
             then die "'$1' requires argument"
             fi
-            EXCLUDE+=("\"$exclude\"")
+            EXCLUDE+=("\"''${2:-}\"")
             shift
             ;;
         -F|--folow-symlinks)
@@ -215,18 +206,17 @@ parse_args()
             ARGS+=(--arg fullyQualified true)
             ;;
         -p|--src-prefix)
-            local prefix="''${2:-}"
-            if [ -z "$prefix" ]
+            if [ -z "''${2:-}" ]
             then die "'$1' requires argument"
             fi
-            ARGS+=(--argstr srcPrefix "$prefix")
+            ARGS+=(--argstr srcPrefix "''${2:-}")
             shift
             ;;
         -N|--nix)
-            NIX_EXE="''${2:-}"
-            if [ -z "$NIX_EXE" ]
+            if [ -z "''${2:-}" ]
             then die "'$1' requires argument"
             fi
+            NIX_EXE="''${2:-}"
             shift
             ;;
         *)

@@ -54,7 +54,7 @@ It's beyond the scope of this project to explain how to set up a Haskell project
 
 You can build and run the Nixpkgs-style build of this example project with the following command:
 
-```shell
+```sh
 nix run --file test build.nixpkgs --command haskell-tags-nix-example
 ```
 
@@ -62,7 +62,7 @@ nix run --file test build.nixpkgs --command haskell-tags-nix-example
 
 And similarly, you can build and run the Haskell.nix build of this project with the following command:
 
-```shell
+```sh
 nix run \
     --file test build.haskell-nix.components.exes \
     --command haskell-tags-nix-example
@@ -88,11 +88,11 @@ If the Nix expression found at the provided path contains multiple derivations, 
 
 Here we build a tags file for the Nixpkgs build of our example project:
 
-```shell
+```sh
 haskell-tags-nix --file ./test --attr build.nixpkgs
 ```
 
-    LINKING SCRIPT: /nix/store/jayrb2h95iaa644prcv0hj39zc9n7k8g-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
+    LINKING SCRIPT: /nix/store/whja5fjl2wz7rnl2dpp424v1l6lhnmz0-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
         /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
     
     SOURCES in /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps:
@@ -112,7 +112,7 @@ Tags can come from three types of source code:
 
 The tags file by default only has tags for the dependencies. Our example project depends on the `void` package, so all our tags are only for that package:
 
-```shell
+```sh
 cat tags
 ```
 
@@ -125,22 +125,22 @@ cat tags
 
 If you want to include tags for your target packages, you can call `haskell-tags-nix` with `--include-targets`. In our example, this would include tags for the example project itself:
 
-```shell
+```sh
 haskell-tags-nix --file ./test --attr build.nixpkgs --include-targets
 ```
 
-    LINKING SCRIPT: /nix/store/6j1jzp6g3w8sz2wmi9lz31m1jvz63yqw-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
+    LINKING SCRIPT: /nix/store/gvxiwrdj69avdzpz6av0abvaiwkvm2xa-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
         /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
     
     SOURCES in /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps:
     - /nix/store/15if2rxg09aqaj5wvv93h57zpmqiy56d-void-0.7.3.tar.gz-unpacked
     RUNNING: xargs fast-tags -R -o tags < /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps
     
-    SOURCES in /nix/store/gmmnmyyllzml2gzlw7iqa3f7bm2ds8lk-tags-deps:
+    SOURCES in /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps:
     - /home/tnks/src/shajra/haskell-tags-nix/test/example
-    RUNNING: xargs fast-tags -R -o tags < /nix/store/gmmnmyyllzml2gzlw7iqa3f7bm2ds8lk-tags-deps
+    RUNNING: xargs fast-tags -R -o tags < /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps
 
-```shell
+```sh
 cat tags
 ```
 
@@ -155,7 +155,7 @@ Additionally, if you want tags for GHC you can call `haskell-tags-nix` with `--i
 
 By default the generated tags file is in the Vi-style "ctags" format. You can use the `--emacs` switch if you want to generate the Emacs-style "etags" format:
 
-```shell
+```sh
 haskell-tags-nix --file ./test --attr build.nixpkgs --emacs
 ```
 
@@ -163,7 +163,7 @@ The default name for the tags file is "tags" for the ctags format and "TAGS" for
 
 Lastly, if you have a Haskell.nix build, you need to use the `--haskell-nix` switch. Here's an example of generating tags from the Haskell.nix build of our example project:
 
-```shell
+```sh
 haskell-tags-nix --file ./test --attr build.haskell-nix --haskell-nix
 ```
 
@@ -191,22 +191,22 @@ The tags generation script makes tags in two steps. The first step populates tag
 
 Calling the tags generation script by default only regenerates tags for source outside `/nix/store`:
 
-```shell
+```sh
 haskell-tags-nix --file ./test --attr build.nixpkgs --include-targets
 ```
 
-```shell
+```sh
 run/tags-generate
 ```
 
     
-    SOURCES in /nix/store/gmmnmyyllzml2gzlw7iqa3f7bm2ds8lk-tags-deps:
+    SOURCES in /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps:
     - /home/tnks/src/shajra/haskell-tags-nix/test/example
-    RUNNING: xargs fast-tags -R -o tags < /nix/store/gmmnmyyllzml2gzlw7iqa3f7bm2ds8lk-tags-deps
+    RUNNING: xargs fast-tags -R -o tags < /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps
 
 But if you use the `--all` switch with the tags generation script, all tags will be updated, which might be useful if you've deleted your tags file:
 
-```shell
+```sh
 run/tags-generate --all
 ```
 
@@ -215,9 +215,9 @@ run/tags-generate --all
     - /nix/store/15if2rxg09aqaj5wvv93h57zpmqiy56d-void-0.7.3.tar.gz-unpacked
     RUNNING: xargs fast-tags -R -o tags < /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps
     
-    SOURCES in /nix/store/gmmnmyyllzml2gzlw7iqa3f7bm2ds8lk-tags-deps:
+    SOURCES in /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps:
     - /home/tnks/src/shajra/haskell-tags-nix/test/example
-    RUNNING: xargs fast-tags -R -o tags < /nix/store/gmmnmyyllzml2gzlw7iqa3f7bm2ds8lk-tags-deps
+    RUNNING: xargs fast-tags -R -o tags < /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps
 
 Note that because the tags generation script has explicit references to dependencies, the script can become stale if dependencies change in your Nix expression. When this happens, you can rerun `haskell-tags-nix` to regenerate the script and all tags.
 
@@ -227,24 +227,24 @@ Note that because the tags generation script has explicit references to dependen
 
 To deal with this limitation of `fast-tags` we have the option of generating two separate tags files, one for the tags that reference source within `/nix/store` and another for tags of source outside `/nix/store`. `haskell-tags-nix` does this automatically when you use the `--emacs` switch. We can see this when we use both the `--emacs` and `--include-targets` switches with our example project:
 
-```shell
+```sh
 haskell-tags-nix --file ./test --attr build.nixpkgs --emacs --include-targets
 ```
 
-    LINKING SCRIPT: /nix/store/p9miwajcczfvabzaxk0zygh3h9dpcz85-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
+    LINKING SCRIPT: /nix/store/bb1lczd6lfzhk54zzy4v8n3g15f3f268-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
         /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
     
     SOURCES in /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps:
     - /nix/store/15if2rxg09aqaj5wvv93h57zpmqiy56d-void-0.7.3.tar.gz-unpacked
     RUNNING: xargs fast-tags -R -o TAGS --emacs < /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps
     
-    SOURCES in /nix/store/gmmnmyyllzml2gzlw7iqa3f7bm2ds8lk-tags-deps:
+    SOURCES in /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps:
     - /home/tnks/src/shajra/haskell-tags-nix/test/example
-    RUNNING: xargs fast-tags -R -o TAGS.local --emacs < /nix/store/gmmnmyyllzml2gzlw7iqa3f7bm2ds8lk-tags-deps
+    RUNNING: xargs fast-tags -R -o TAGS.local --emacs < /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps
 
 For Emacs, by default a tags file named "TAGS" stores tags for source code within `/nix/store`.
 
-```shell
+```sh
 cat TAGS
 ```
 
@@ -257,7 +257,7 @@ cat TAGS
 
 A tags file named "TAGS.local" has references to our example project:
 
-```shell
+```sh
 cat TAGS.local
 ```
 
@@ -300,7 +300,7 @@ To integrate with an LSP server like HLS, Emacs users using `lsp-mode` may be in
 
 Vim users are likely using [Conquer of Completion (CoC)](https://github.com/neoclide/coc.nvim) to integrate with an LSP server. A simple integration would have CoC's `coc-definition` function mapped to a different keybinding (`gd`) than the `Ctrl-]` binding that uses `:tags`. Then you have the option of using either. Additionally, to get completion support for CoC using identifiers from tags files, you may consider using `coc-tag` from the [`coc-sources` project](https://github.com/neoclide/coc-sources).
 
-It's very difficult to cover the myriad of plugins, alternative configurations, or other editors that support tags files. Hopefully you now have enough information to find the rest of what you need online.
+It's difficult to cover the myriad of plugins, alternative configurations, or other editors that support tags files. Hopefully you now have enough information to find the rest of what you need online.
 
 ## Using this project as a Nix library<a id="sec-3-8"></a>
 
@@ -308,7 +308,7 @@ Rather than use the provided `haskell-tags-nix` command-line tool, you may want 
 
 The `haskell-tags-nix-static` function generates a fully static tags file. Here's an illustration of calling `haskell-tags-nix-static` to get a Nix derivation that builds a tags file for our example project.
 
-```shell
+```sh
 nix build '(
     (import ./.).haskell-tags-nix-static {
 	nixExprs = [(import ./test {}).build.nixpkgs];
@@ -326,11 +326,11 @@ nix build '(
 readlink -f result
 ```
 
-    /nix/store/bpfrypyy3m8m0vvc9j3icghj0jbd7akd-tags
+    /nix/store/qb6bw082g13ih3jlwifzy168vg4g6xmx-tags
 
 With `haskell-tags-nix-dynamic` we can make a tags generation script:
 
-```shell
+```sh
 nix build '(
     (import ./.).haskell-tags-nix-dynamic {
 	nixExprs = [(import ./test {}).build.nixpkgs];
@@ -350,7 +350,7 @@ nix build '(
 readlink -f result
 ```
 
-    /nix/store/6j1jzp6g3w8sz2wmi9lz31m1jvz63yqw-haskell-tags-nix-generate
+    /nix/store/gvxiwrdj69avdzpz6av0abvaiwkvm2xa-haskell-tags-nix-generate
 
 In both `haskell-tags-nix-static` and `haskell-tags-nix-dynamic` functions, the only required attribute is `nixExprs`.
 
@@ -358,7 +358,7 @@ In both `haskell-tags-nix-static` and `haskell-tags-nix-dynamic` functions, the 
 
 For reference below is the help message for `haskell-tags-nix`. Most of the switches not discussed above are passed directly to `fast-tags`.
 
-```shell
+```sh
 haskell-tags-nix --help
 ```
 
@@ -403,7 +403,7 @@ haskell-tags-nix --help
 
 Again for reference below is the help message for the tags generation script:
 
-```shell
+```sh
 run/tags-generate --help
 ```
 
@@ -420,7 +420,7 @@ run/tags-generate --help
 
 # Prior art<a id="sec-5"></a>
 
-This project is very similar and takes some ideas from [tek/thax](https://github.com/tek/thax). There's a few important differences though.
+This project is similar to and takes some ideas from [tek/thax](https://github.com/tek/thax). There's a few important differences though.
 
 Thax uses [`hasktags`](https://hackage.haskell.org/package/hasktags) and not `fast-tags`. Both use parsers tailored for Haskell, but `fast-tags`'s is more hand-rolled which makes its parse less strict, but in theory faster. Also, `fast-tag` supports tagging of some more advanced features of Haskell like type families.
 
@@ -450,9 +450,9 @@ For the sake of beginners we want to remove complexity that is absolutely unnece
 
 # Release<a id="sec-7"></a>
 
-The "master" branch of the repository on GitHub has the latest released version of this code. There is currently no commitment to either forward or backward compatibility.
+The "main" branch of the repository on GitHub has the latest released version of this code. There is currently no commitment to either forward or backward compatibility.
 
-"user/shajra" branches are personal branches that may be force-pushed to. The "master" branch should not experience force-pushes and is recommended for general use.
+"user/shajra" branches are personal branches that may be force-pushed to. The "main" branch should not experience force-pushes and is recommended for general use.
 
 # License<a id="sec-8"></a>
 

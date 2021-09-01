@@ -9,14 +9,15 @@ nix run \
     --file nix \
     nix-project-org2gfm \
     haskell-tags-nix-exe \
-    pkgs.ansifilter \
-    pkgs.coreutils \
-    pkgs.gnutar \
-    pkgs.gzip \
-    pkgs.tree \
+    ansifilter \
+    coreutils \
+    gnutar \
+    gzip \
+    tree \
     --command \
     org2gfm \
-    --ignore 'links.org' \
+    --path-bin \
+    --exclude links.org \
     --nix "$(command -v nix)" \
     --evaluate \
     "$@"
