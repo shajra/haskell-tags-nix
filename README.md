@@ -92,7 +92,7 @@ Here we build a tags file for the Nixpkgs build of our example project:
 haskell-tags-nix --file ./test --attr build.nixpkgs
 ```
 
-    LINKING SCRIPT: /nix/store/whja5fjl2wz7rnl2dpp424v1l6lhnmz0-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
+    LINKING SCRIPT: /nix/store/mgx0269g48jv5hk5329rs3mg6km5xxch-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
         /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
     
     SOURCES in /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps:
@@ -129,7 +129,7 @@ If you want to include tags for your target packages, you can call `haskell-tags
 haskell-tags-nix --file ./test --attr build.nixpkgs --include-targets
 ```
 
-    LINKING SCRIPT: /nix/store/gvxiwrdj69avdzpz6av0abvaiwkvm2xa-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
+    LINKING SCRIPT: /nix/store/8n2pxy00gbaxi7f7ayfb4qvpdffhhgss-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
         /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
     
     SOURCES in /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps:
@@ -231,7 +231,7 @@ To deal with this limitation of `fast-tags` we have the option of generating two
 haskell-tags-nix --file ./test --attr build.nixpkgs --emacs --include-targets
 ```
 
-    LINKING SCRIPT: /nix/store/bb1lczd6lfzhk54zzy4v8n3g15f3f268-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
+    LINKING SCRIPT: /nix/store/xq974bd33s7x2b61i4y3yicph819accd-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
         /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
     
     SOURCES in /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps:
@@ -326,7 +326,7 @@ nix build '(
 readlink -f result
 ```
 
-    /nix/store/qb6bw082g13ih3jlwifzy168vg4g6xmx-tags
+    /nix/store/2ipw6n0ln8ncz36yqp0awsk05x11kwjv-tags
 
 With `haskell-tags-nix-dynamic` we can make a tags generation script:
 
@@ -350,7 +350,7 @@ nix build '(
 readlink -f result
 ```
 
-    /nix/store/gvxiwrdj69avdzpz6av0abvaiwkvm2xa-haskell-tags-nix-generate
+    /nix/store/8n2pxy00gbaxi7f7ayfb4qvpdffhhgss-haskell-tags-nix-generate
 
 In both `haskell-tags-nix-static` and `haskell-tags-nix-dynamic` functions, the only required attribute is `nixExprs`.
 

@@ -48,7 +48,7 @@ set -eu
 set -o pipefail
 
 
-. "${nix-project-lib.lib-sh}/share/nix-project/lib.sh"
+. "${nix-project-lib.common}/share/nix-project/common.bash"
 
 
 ALL=false

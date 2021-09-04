@@ -7,13 +7,13 @@ nix run \
     --keep LANG \
     --keep LOCALE_ARCHIVE \
     --file nix \
-    nix-project-org2gfm \
-    haskell-tags-nix-exe \
-    ansifilter \
-    coreutils \
-    gnutar \
-    gzip \
-    tree \
+    nix-project.nix-project-org2gfm \
+    distribution.haskell-tags-nix-exe \
+    nixpkgs.ansifilter \
+    nixpkgs.coreutils \
+    nixpkgs.gnutar \
+    nixpkgs.gzip \
+    nixpkgs.tree \
     --command \
     org2gfm \
     --path-bin \

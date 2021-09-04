@@ -20,7 +20,7 @@ set -eu
 set -o pipefail
 
 
-. "${nix-project-lib.lib-sh}/share/nix-project/lib.sh"
+. "${nix-project-lib.common}/share/nix-project/common.bash"
 
 
 NIX_EXE="$(command -v nix || true)"
@@ -231,7 +231,7 @@ link_static_tags()
 {
     nix build \
         --out-link "$(tags_static_path)" \
-        run-static \
+        build.run-static \
         "''${ARGS[@]}"
 }
 
@@ -242,8 +242,8 @@ link_script_maybe()
         echo "USING PRE-EXISTING SCRIPT: $SCRIPT_PATH ->"
         echo "    $(readlink -f "$SCRIPT_PATH")"
     else
-        nix build --no-link "''${ARGS[@]}" run-dynamic >/dev/null
-        local out; out="$(nix path-info "''${ARGS[@]}" run-dynamic)"
+        nix build --no-link "''${ARGS[@]}" build.run-dynamic >/dev/null
+        local out; out="$(nix path-info "''${ARGS[@]}" build.run-dynamic)"
         local script="$out/bin/haskell-tags-nix-generate"
         if [ -n "$SCRIPT_PATH" ]
         then
@@ -269,7 +269,7 @@ run_script()
     else nix run \
         --ignore-environment \
         "''${ARGS[@]}" \
-        run-dynamic \
+        build.run-dynamic \
         --command haskell-tags-nix-generate "''${switches[@]}"
     fi
 }

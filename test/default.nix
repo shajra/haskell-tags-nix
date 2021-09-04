@@ -22,7 +22,7 @@ let
             nixpkgsArgs = nixpkgsOrigArgs // { config = {}; };
         in (import nixpkgsSrc nixpkgsArgs).haskell-nix;
 
-    src.example = cleanSrc ./example [".hs" ".cabal"];
+    src.example = cleanSrc ./example [".hs" ".cabal" "cabal.project"];
 
     infra.nixpkgs = nixpkgs;
     infra.haskell-nix = haskell-nix;
@@ -35,13 +35,11 @@ let
         name = "haskell-tags-nix-example-haskellnix";
         src = src.example;
         compiler-nix-name = config.haskell-nix.ghcVersion;
-        index-state = config.haskell-nix.hackage.index.state;
-        index-sha256 = config.haskell-nix.hackage.index.sha256;
         materialized = ./materialized;
         inherit checkMaterialization;
     }).haskell-tags-nix-example;
 
-    tagsMake.common = (import ../nix {}).run-static;
+    tagsMake.common = (import ../nix {}).build.run-static;
 
     tagsMake.nixpkgs = args: tagsMake.common ({
         haskellNix = false;
