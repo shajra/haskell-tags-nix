@@ -244,8 +244,6 @@ nix-env --install --file . --attr haskell-tags-nix-exe 2>&1
 ```
 
     installing 'haskell-tags-nix'
-    building '/nix/store/yzlcravlvz8x819bhzq9kjwg7xk929gq-user-environment.drv'...
-    created 1 symlinks in user environment
 
 We can see this installation by querying what's been installed:
 
