@@ -11,8 +11,7 @@ nix run \
     distribution.haskell-tags-nix-exe \
     nixpkgs.ansifilter \
     nixpkgs.coreutils \
-    nixpkgs.gnutar \
-    nixpkgs.gzip \
+    nixpkgs.gnugrep \
     nixpkgs.tree \
     --command \
     org2gfm \

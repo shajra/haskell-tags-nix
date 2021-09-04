@@ -276,14 +276,8 @@ nix search --file default.nix --no-cache | ansifilter
 #+END_SRC
 
 #+RESULTS: nix-search
-: * nix-project-exe (nix-project)
-:   Script to scaffold and maintain dependencies for a Nix project
-: 
-: * nix-project-lib.lib-sh (nix-project-lib)
-:   Common shell functions
-: 
-: * nix-project-org2gfm (org2gfm)
-:   Script to export Org-mode files to GitHub Flavored Markdown (GFM)
+: * haskell-tags-nix-exe (haskell-tags-nix)
+:   Generate ctags/etags file from a Nix expression
 : 
 
 If you don't get the results above, see the [[#nix-drv][section on understanding derivations]]
@@ -338,8 +332,8 @@ nix search --no-cache --file . | ansifilter \
 #+END_SRC
 
 #+RESULTS: nix-search-specific
-: * nix-project-exe (nix-project)
-:   Script to scaffold and maintain dependencies for a Nix project
+: * haskell-tags-nix-exe (haskell-tags-nix)
+:   Generate ctags/etags file from a Nix expression
 
 We can see that a package named {{{package-name}}} can be accessed with the
 {{{package-attr}}} attribute path in the Nix expression in the project root's
@@ -372,7 +366,7 @@ readlink result*
 #+END_SRC
 
 #+RESULTS: nix-build-link
-: /nix/store/08qn1pmw9viw8zpnmpzabhr8qjyimglb-nix-project
+: /nix/store/2c9288aclmp4k84g2mdh7z9mkmyva2qv-haskell-tags-nix
 
 Following these symlinks, we can see the files the project provides:
 
@@ -384,7 +378,7 @@ tree -l result*
 #+RESULTS: nix-build-tree
 : result
 : └── bin
-:     └── nix-project
+:     └── haskell-tags-nix
 : 
 : 1 directory, 1 file
 
@@ -401,7 +395,7 @@ nix path-info --file . <<get("package-attr")>>
 #+END_SRC
 
 #+RESULTS: nix-build-path
-: /nix/store/08qn1pmw9viw8zpnmpzabhr8qjyimglb-nix-project
+: /nix/store/2c9288aclmp4k84g2mdh7z9mkmyva2qv-haskell-tags-nix
 
 ** Running commands
 
@@ -426,11 +420,11 @@ nix run \
 #+END_SRC
 
 #+RESULTS: nix-run
-: USAGE:
+: USAGE: haskell-tags-nix [OPTION]...
 : 
-:     nix-project [OPTION]... scaffold
-:     nix-project [OPTION]... init-update [--] [NIV_UPDATE_ARGS]...
-:     nix-project [OPTION]... niv NIV_COMMAND...
+: DESCRIPTION:
+: 
+:     Generate ctags/etags file from a Nix expression
 : …
 
 Thus far, the argument of the =--file= switch has always referenced a Nix file
@@ -490,7 +484,9 @@ nix-env --install --file . --attr <<get("package-attr")>> 2>&1
 #+END_SRC
 
 #+RESULTS: nix-env-install
-: installing 'nix-project'
+: installing 'haskell-tags-nix'
+: building '/nix/store/yzlcravlvz8x819bhzq9kjwg7xk929gq-user-environment.drv'...
+: created 1 symlinks in user environment
 
 We can see this installation by querying what's been installed:
 
@@ -500,7 +496,7 @@ nix-env --query
 #+END_SRC
 
 #+RESULTS: nix-env-query-2
-: nix-project
+: haskell-tags-nix
 
 And if we want to uninstall a program from our active profile, we do so by its
 name, in this case {{{package-name}}}:
@@ -511,7 +507,7 @@ nix-env --uninstall <<get("package-name")>> 2>&1
 #+END_SRC
 
 #+RESULTS: nix-env-uninstall
-: uninstalling 'nix-project'
+: uninstalling 'haskell-tags-nix'
 
 Note that we've installed our package using its attribute path
 ({{{package-attr}}}) within the referenced Nix expression. But we uninstall it
