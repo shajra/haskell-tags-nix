@@ -1,12 +1,12 @@
-#+TITLE: Nix-based Tags-file Generator for Haskell
-#+SETUPFILE: doc/links.org
+#+title: Nix-based Tags-file Generator for Haskell
+#+setupfile: doc/links.org
 
 [[https://github.com/shajra/haskell-tags-nix/actions][https://github.com/shajra/haskell-tags-nix/workflows/CI/badge.svg]]
 
 * Org-mode setup :noexport:
 
-#+NAME: crop
-#+BEGIN_SRC emacs-lisp :var text="" :var first-n=5 :var last-n=5 :results silent
+#+name: crop
+#+begin_src emacs-lisp :var text="" :var first-n=5 :var last-n=5 :results silent
 (let* ((ls         (split-string text "\n"))
        (first-ls   (-take first-n ls))
        (rest-first (-drop first-n ls))
@@ -17,18 +17,18 @@
        (append first-ls '("…") last-ls)
      (append first-ls last-ls))
    "\n"))
-#+END_SRC
+#+end_src
 
-#+NAME: cleanup
-#+BEGIN_SRC sh :results output silent :exports none
+#+name: cleanup
+#+begin_src sh :results output silent :exports none
 rm --recursive --force tags TAGS TAGS.local result run
-#+END_SRC
+#+end_src
 
-#+NAME: derivation
-#+BEGIN_SRC sh :results output silent :exports none
+#+name: derivation
+#+begin_src sh :results output silent :exports none
 nix show-derivation \
     --file test build.haskell-nix.components.exes >/dev/null 2>&1
-#+END_SRC
+#+end_src
 
 * About this project
 
@@ -102,25 +102,25 @@ example project has a small dependency on the =void= package.
 You can build and run the Nixpkgs-style build of this example project with the
 following command:
 
-#+NAME: example-nixpkgs-run
-#+BEGIN_SRC sh :results output :exports both
+#+name: example-nixpkgs-run
+#+begin_src sh :results output :exports both
 nix run --file test build.nixpkgs --command haskell-tags-nix-example
-#+END_SRC
+#+end_src
 
-#+RESULTS: example-nixpkgs-run
+#+results: example-nixpkgs-run
 : Hello! This output proves the example project builds and runs.
 
 And similarly, you can build and run the Haskell.nix build of this project
 with the following command:
 
-#+NAME: example-haskellnix-run
-#+BEGIN_SRC sh :results output :exports both
+#+name: example-haskellnix-run
+#+begin_src sh :results output :exports both
 nix run \
     --file test build.haskell-nix.components.exes \
     --command haskell-tags-nix-example
-#+END_SRC
+#+end_src
 
-#+RESULTS: example-haskellnix-run
+#+results: example-haskellnix-run
 : Hello! This output proves the example project builds and runs.
 
 Note that a Haskell.nix build breaks up a Haskell package into separate
@@ -155,12 +155,12 @@ switch multiple times to select out multiple targets.
 
 Here we build a tags file for the Nixpkgs build of our example project:
 
-#+NAME: tags-nixpkgs-default
-#+BEGIN_SRC sh :results output :exports both
+#+name: tags-nixpkgs-default
+#+begin_src sh :results output :exports both
 haskell-tags-nix --file ./test --attr build.nixpkgs
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-nixpkgs-default
+#+results: tags-nixpkgs-default
 : LINKING SCRIPT: /nix/store/mgx0269g48jv5hk5329rs3mg6km5xxch-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
 :     /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
 : 
@@ -184,12 +184,12 @@ Tags can come from three types of source code:
 The tags file by default only has tags for the dependencies. Our example project
 depends on the =void= package, so all our tags are only for that package:
 
-#+NAME: tags-nixpkgs-default-cat
-#+BEGIN_SRC sh :results output :exports both :post crop(text=*this*, first-n=3, last-n=2)
+#+name: tags-nixpkgs-default-cat
+#+begin_src sh :results output :exports both :post crop(text=*this*, first-n=3, last-n=2)
 cat tags
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-nixpkgs-default-cat
+#+results: tags-nixpkgs-default-cat
 : !_TAG_FILE_SORTED	1	//
 : MIN_VERSION_base	/nix/store/15if2rxg09aqaj5wvv93h57zpmqiy56d-void-0.7.3.tar.gz-unpacked/src-old/Data/Void.hs	16;"	D
 : MIN_VERSION_semigroups	/nix/store/15if2rxg09aqaj5wvv93h57zpmqiy56d-void-0.7.3.tar.gz-unpacked/src-old/Data/Void.hs	20;"	D
@@ -201,14 +201,14 @@ If you want to include tags for your target packages, you can call
 =haskell-tags-nix= with =--include-targets=. In our example, this would include
 tags for the example project itself:
 
-#+CALL: cleanup()
+#+call: cleanup()
 
-#+NAME: tags-nixpkgs-targets
-#+BEGIN_SRC sh :results output :exports both
+#+name: tags-nixpkgs-targets
+#+begin_src sh :results output :exports both
 haskell-tags-nix --file ./test --attr build.nixpkgs --include-targets
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-nixpkgs-targets
+#+results: tags-nixpkgs-targets
 #+begin_example
 LINKING SCRIPT: /nix/store/8n2pxy00gbaxi7f7ayfb4qvpdffhhgss-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
     /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
@@ -222,12 +222,12 @@ SOURCES in /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps:
 RUNNING: xargs fast-tags -R -o tags < /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps
 #+end_example
 
-#+NAME: tags-nixpkgs-targets-cat
-#+BEGIN_SRC sh :results output :exports both :post crop(text=*this*, first-n=3, last-n=2)
+#+name: tags-nixpkgs-targets-cat
+#+begin_src sh :results output :exports both :post crop(text=*this*, first-n=3, last-n=2)
 cat tags
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-nixpkgs-targets-cat
+#+results: tags-nixpkgs-targets-cat
 : !_TAG_FILE_SORTED	1	//
 : Example	/home/tnks/src/shajra/haskell-tags-nix/test/example/src/Example.hs	3;"	m
 : Hello	/home/tnks/src/shajra/haskell-tags-nix/test/example/src/Example.hs	6;"	F
@@ -241,12 +241,12 @@ Additionally, if you want tags for GHC you can call =haskell-tags-nix= with
 By default the generated tags file is in the Vi-style "ctags" format. You can
 use the =--emacs= switch if you want to generate the Emacs-style "etags" format:
 
-#+CALL: cleanup()
+#+call: cleanup()
 
-#+NAME: tags-nixpkgs-emacs
-#+BEGIN_SRC sh :results output silent :exports code
+#+name: tags-nixpkgs-emacs
+#+begin_src sh :results output silent :exports code
 haskell-tags-nix --file ./test --attr build.nixpkgs --emacs
-#+END_SRC
+#+end_src
 
 The default name for the tags file is "tags" for the ctags format and "TAGS" for
 the etags format. But you can change the name with the =--output= switch.
@@ -255,12 +255,12 @@ Lastly, if you have a Haskell.nix build, you need to use the =--haskell-nix=
 switch. Here's an example of generating tags from the Haskell.nix build of our
 example project:
 
-#+CALL: cleanup()
+#+call: cleanup()
 
-#+NAME: tags-haskellnix
-#+BEGIN_SRC sh :results output silent :exports code
+#+name: tags-haskellnix
+#+begin_src sh :results output silent :exports code
 haskell-tags-nix --file ./test --attr build.haskell-nix --haskell-nix
-#+END_SRC
+#+end_src
 
 ** The tags generation script
 
@@ -306,17 +306,17 @@ typically downloaded source for third-party libraries. The source outside
 Calling the tags generation script by default only regenerates tags for source
 outside =/nix/store=:
 
-#+NAME: tags-nixpkgs-targets-2
-#+BEGIN_SRC sh :results output silent :exports code
+#+name: tags-nixpkgs-targets-2
+#+begin_src sh :results output silent :exports code
 haskell-tags-nix --file ./test --attr build.nixpkgs --include-targets
-#+END_SRC
+#+end_src
 
-#+NAME: tags-generate
-#+BEGIN_SRC sh :results output :exports both
+#+name: tags-generate
+#+begin_src sh :results output :exports both
 run/tags-generate
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-generate
+#+results: tags-generate
 : 
 : SOURCES in /nix/store/p5853irzlrm8bk4w6q9m9cphq60rcp0g-tags-deps:
 : - /home/tnks/src/shajra/haskell-tags-nix/test/example
@@ -325,12 +325,12 @@ run/tags-generate
 But if you use the =--all= switch with the tags generation script, all tags will
 be updated, which might be useful if you've deleted your tags file:
 
-#+NAME: tags-generate-all
-#+BEGIN_SRC sh :results output :exports both
+#+name: tags-generate-all
+#+begin_src sh :results output :exports both
 run/tags-generate --all
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-generate-all
+#+results: tags-generate-all
 : 
 : SOURCES in /nix/store/9c5q1cy4ahi3bcfl86nanibialcm5rkf-tags-deps:
 : - /nix/store/15if2rxg09aqaj5wvv93h57zpmqiy56d-void-0.7.3.tar.gz-unpacked
@@ -358,14 +358,14 @@ this automatically when you use the =--emacs= switch. We can see this when we
 use both the =--emacs= and =--include-targets= switches with our example
 project:
 
-#+CALL: cleanup()
+#+call: cleanup()
 
-#+NAME: tags-nixpkgs-emacs-2
-#+BEGIN_SRC sh :results output :exports both
+#+name: tags-nixpkgs-emacs-2
+#+begin_src sh :results output :exports both
 haskell-tags-nix --file ./test --attr build.nixpkgs --emacs --include-targets
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-nixpkgs-emacs-2
+#+results: tags-nixpkgs-emacs-2
 #+begin_example
 LINKING SCRIPT: /nix/store/xq974bd33s7x2b61i4y3yicph819accd-haskell-tags-nix-generate/bin/haskell-tags-nix-generate ->
     /home/tnks/src/shajra/haskell-tags-nix/run/tags-generate
@@ -382,12 +382,12 @@ RUNNING: xargs fast-tags -R -o TAGS.local --emacs < /nix/store/p5853irzlrm8bk4w6
 For Emacs, by default a tags file named "TAGS" stores tags for source code
 within =/nix/store=.
 
-#+NAME: tags-nixpkgs-emacs-cat-tags
-#+BEGIN_SRC sh :results output :exports both :post crop(text=*this*, first-n=3, last-n=2)
+#+name: tags-nixpkgs-emacs-cat-tags
+#+begin_src sh :results output :exports both :post crop(text=*this*, first-n=3, last-n=2)
 cat TAGS
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-nixpkgs-emacs-cat-tags
+#+results: tags-nixpkgs-emacs-cat-tags
 : 
 : /nix/store/15if2rxg09aqaj5wvv93h57zpmqiy56d-void-0.7.3.tar.gz-unpacked/Setup.lhs,63
 : > module Main (main) whereMain2,22
@@ -397,12 +397,12 @@ cat TAGS
 
 A tags file named "TAGS.local" has references to our example project:
 
-#+NAME: tags-nixpkgs-emacs-cat-local
-#+BEGIN_SRC sh :results output :exports both :post crop(text=*this*, first-n=3, last-n=2)
+#+name: tags-nixpkgs-emacs-cat-local
+#+begin_src sh :results output :exports both :post crop(text=*this*, first-n=3, last-n=2)
 cat TAGS.local
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-nixpkgs-emacs-cat-local
+#+results: tags-nixpkgs-emacs-cat-local
 : 
 : /home/tnks/src/shajra/haskell-tags-nix/test/example/Setup.hs,29
 : main = defaultMainmain2,27
@@ -498,8 +498,8 @@ The =haskell-tags-nix-static= function generates a fully static tags file.
 Here's an illustration of calling =haskell-tags-nix-static= to get a Nix
 derivation that builds a tags file for our example project.
 
-#+NAME: build-static
-#+BEGIN_SRC sh :results output :exports both
+#+name: build-static
+#+begin_src sh :results output :exports both
 nix build '(
     (import ./.).haskell-tags-nix-static {
         nixExprs = [(import ./test {}).build.nixpkgs];
@@ -515,15 +515,15 @@ nix build '(
         srcPrefix = "";
     })'
 readlink -f result
-#+END_SRC
+#+end_src
 
-#+RESULTS: build-static
+#+results: build-static
 : /nix/store/2ipw6n0ln8ncz36yqp0awsk05x11kwjv-tags
 
 With =haskell-tags-nix-dynamic= we can make a tags generation script:
 
-#+NAME: build-dynamic
-#+BEGIN_SRC sh :results output :exports both
+#+name: build-dynamic
+#+begin_src sh :results output :exports both
 nix build '(
     (import ./.).haskell-tags-nix-dynamic {
         nixExprs = [(import ./test {}).build.nixpkgs];
@@ -541,9 +541,9 @@ nix build '(
         srcPrefix = "";
     })'
 readlink -f result
-#+END_SRC
+#+end_src
 
-#+RESULTS: build-dynamic
+#+results: build-dynamic
 : /nix/store/8n2pxy00gbaxi7f7ayfb4qvpdffhhgss-haskell-tags-nix-generate
 
 In both =haskell-tags-nix-static= and =haskell-tags-nix-dynamic= functions, the
@@ -554,12 +554,12 @@ only required attribute is =nixExprs=.
 For reference below is the help message for =haskell-tags-nix=. Most of the
 switches not discussed above are passed directly to =fast-tags=.
 
-#+NAME: tags-help
-#+BEGIN_SRC sh :results output :exports both
+#+name: tags-help
+#+begin_src sh :results output :exports both
 haskell-tags-nix --help
-#+END_SRC
+#+end_src
 
-#+RESULTS: tags-help
+#+results: tags-help
 #+begin_example
 USAGE: haskell-tags-nix [OPTION]...
 
@@ -604,12 +604,12 @@ OPTIONS:
 
 Again for reference below is the help message for the tags generation script:
 
-#+NAME: generate-help
-#+BEGIN_SRC sh :results output :exports both
+#+name: generate-help
+#+begin_src sh :results output :exports both
 run/tags-generate --help
-#+END_SRC
+#+end_src
 
-#+RESULTS: generate-help
+#+results: generate-help
 #+begin_example
 USAGE: haskell-tags-nix-generate [OPTION]...
 
@@ -719,4 +719,4 @@ Copyright © 2020 Sukant Hajra
 
 * Org-mode teardown :noexport:
 
-#+CALL: cleanup()
+#+call: cleanup()
