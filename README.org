@@ -27,7 +27,7 @@ rm --recursive --force tags TAGS TAGS.local result run
 #+NAME: derivation
 #+BEGIN_SRC sh :results output silent :exports none
 nix show-derivation \
-    --file test build.haskell-nix.components.exes 2>&1
+    --file test build.haskell-nix.components.exes >/dev/null 2>&1
 #+END_SRC
 
 * About this project
