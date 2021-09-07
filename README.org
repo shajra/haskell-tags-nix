@@ -69,7 +69,7 @@ There's two main ways to manage Haskell projects with Nix. This project supports
 both:
 
 - [[nixpkgs-haskell][Nixpkgs's Haskell Infrastructure]] build functions
-- [[haskell.nix][IOHK's Haskell.nix]] project.
+- [[haskellnix][IOHK's Haskell.nix]] project.
 
 [[nixpkgs][Nixpkgs]] is the standard library for Nix, and is curated by community volunteers.
 Dependencies in Nixpkgs are pinned to a curated set. Because Nixpkgs is a Git
@@ -77,7 +77,7 @@ repository, when you select a commit of Nixpkgs to use, you are also pinning all
 your dependencies to a snapshot of this curated set.
 
 Haskell.nix takes a different approach. It resolves dependencies by delegating
-to [[haskell-cabal][Cabal]] or [[haskell-stack][Stack]], exactly matching the dependencies one would use if Nix was
+to [[cabal][Cabal]] or [[stack][Stack]], exactly matching the dependencies one would use if Nix was
 not used at all. This is a primary difference between Haskell.nix and Nixpkgs,
 though Haskell.nix has a lot of other differences not covered here.
 
@@ -94,7 +94,7 @@ project. For example, it explains the =nix run= commands we'll use in this
 document.
 
 It's beyond the scope of this project to explain how to set up a Haskell project
-with Nix. The best resources are the [[nixpkgs-manual][Nixpkgs]] and [[haskell.nix][Haskell.nix]] manuals. However,
+with Nix. The best resources are the [[nixpkgs-manual][Nixpkgs]] and [[haskellnix][Haskell.nix]] manuals. However,
 the [[./test][tests of this project]] provide an small [[./test/example][example Haskell project]] and [[./test/default.nix][a Nix
 expression that builds it]] both with Nixpkgs as well as with Haskell.nix. This
 example project has a small dependency on the =void= package.
@@ -458,7 +458,7 @@ command to search for tags by name.
 
 ** Integrating with Language Server Protocol (LSP) servers
 
-Tools like [[haskell-hls][Haskell Language Server (HLS)]], which implement's [[lsp][Microsoft's Language
+Tools like [[hls][Haskell Language Server (HLS)]], which implement's [[lsp][Microsoft's Language
 Server Protocol (LSP)]], offer many features expected in advanced programming
 environments. One of these features is the exact quick navigation across source
 files that tags files where designed to address.
@@ -673,10 +673,10 @@ reasons.
 
 Fortunately, Haskell has kept some momentum to provide some IDE-like features
 but still give people freedom to use the editors of their choice. The latest
-push in this direction is the [[haskell-hls][Haskell Language Server (HLS)]].
+push in this direction is the [[hls][Haskell Language Server (HLS)]].
 
 HLS however, doesn't yet solve the problem of downloading source code of
-dependencies and indexing references ([[haskell-hiedb][though work is in progress]]). This means
+dependencies and indexing references ([[hiedb][though work is in progress]]). This means
 the tags file is still relevant and useful. But they are a technological relic,
 and it would be wonderful to have a better technology to replace them.
 
