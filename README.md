@@ -326,7 +326,7 @@ nix build '(
 readlink -f result
 ```
 
-    /nix/store/31znq4rfga1vv1vmajipckyb8qsfvzdv-tags
+    /nix/store/8gha1397pmzlrd66ihk50xkzn28rymg2-tags
 
 With `haskell-tags-nix-dynamic` we can make a tags generation script:
 

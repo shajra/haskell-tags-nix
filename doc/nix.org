@@ -366,7 +366,7 @@ readlink result*
 #+end_src
 
 #+results: nix-build-link
-: /nix/store/mk797jgilwzd3sv9gkq0qbv9jxwzq79y-haskell-tags-nix
+: /nix/store/q1mrafgkwsizzkgz1b1xxdhvdy4mh3fv-haskell-tags-nix
 
 Following these symlinks, we can see the files the project provides:
 
@@ -395,7 +395,7 @@ nix path-info --file . <<get("package-attr")>>
 #+end_src
 
 #+results: nix-build-path
-: /nix/store/mk797jgilwzd3sv9gkq0qbv9jxwzq79y-haskell-tags-nix
+: /nix/store/q1mrafgkwsizzkgz1b1xxdhvdy4mh3fv-haskell-tags-nix
 
 ** Running commands
 
