@@ -31,13 +31,19 @@ let
         nixpkgs.haskell.packages.${config.nixpkgs.ghcVersion}.callCabal2nix
             "haskell-tags-nix-example" src.example {};
 
-    build.haskell-nix = (haskell-nix.project {
+    planConfig = {
         name = "haskell-tags-nix-example-haskellnix";
         src = src.example;
         compiler-nix-name = config.haskell-nix.ghcVersion;
         materialized = ./materialized;
         inherit checkMaterialization;
-    }).haskell-tags-nix-example;
+    };
+
+    build.haskell-nix =
+        (haskell-nix.project planConfig).haskell-tags-nix-example;
+
+    updateMaterialized =
+        (haskell-nix.project' planConfig).plan-nix.passthru.updateMaterialized;
 
     tagsMake.common = (import ../nix {}).build.run-static;
 
@@ -117,7 +123,7 @@ let
         in { "${key}" = val; };
 
 in with option; with buildType; with ghcTags; with targetTags; with format;
-    { inherit build infra; }
+    { inherit build infra updateMaterialized; }
     // testMake np            includeGhc includeTargets ctags
     // testMake np            includeGhc includeTargets etags
     // testMake np            includeGhc excludeTargets ctags

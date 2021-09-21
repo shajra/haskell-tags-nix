@@ -1,0 +1,10 @@
+#!/bin/sh -eu
+
+
+cd "$(dirname "$0")/.."
+
+
+mkdir --parent test/materialized
+"$(nix-build test \
+    --no-out-link \
+    --attr updateMaterialized)"
