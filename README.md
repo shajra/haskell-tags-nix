@@ -78,7 +78,7 @@ Note that a Haskell.nix build breaks up a Haskell package into separate componen
 
 [The provided documentation on Nix](doc/nix.md) not only explains how to install and configure Nix, but also explains how to run and install the `haskell-tags-nix` executable provided by this project.
 
-Once you have `nix-haskell-tag` available to call, you can use it to generate a tags file for a Nix-based Haskell project.
+Once you have `haskell-tag-nix` available to call, you can use it to generate a tags file for a Nix-based Haskell project.
 
 ## Calling `haskell-tags-nix`<a id="sec-3-2"></a>
 
