@@ -9,7 +9,7 @@ let
     src = lib.sourceFilesBySuffices ./. [".nix" ".json"];
 in
 
-nix-project-lib.writeShellCheckedExe progName
+nix-project-lib.scripts.writeShellCheckedExe progName
 {
     inherit meta;
     pathPure = false;
@@ -20,7 +20,7 @@ set -eu
 set -o pipefail
 
 
-. "${nix-project-lib.common}/share/nix-project/common.bash"
+. "${nix-project-lib.scripts.scriptCommon}/share/nix-project/common.bash"
 
 
 NIX_EXE="$(command -v nix || true)"
