@@ -34,7 +34,7 @@ let
     storeSrcs = args.fasttagsSrcs splitSrcs.right;
     localSrcs = args.fasttagsSrcs splitSrcs.wrong;
 
-in nix-project-lib.writeShellCheckedExe progName
+in nix-project-lib.scripts.writeShellCheckedExe progName
 {
     inherit meta;
     path = [
